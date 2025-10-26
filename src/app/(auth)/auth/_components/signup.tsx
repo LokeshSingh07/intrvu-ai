@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from "react-hook-form"
 import { SignupSchema, SignupType } from '@/schema/signupSchema';
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input"
 import { useRouter } from 'next/navigation';
 import { Loader2, Lock, Mail, User } from 'lucide-react';
 import z from 'zod';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { createAccount } from '@/actions/auth';
 
 
@@ -26,7 +26,14 @@ import { createAccount } from '@/actions/auth';
 const SignUp = () => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const router = useRouter()
+    const { status, update } = useSession();
 
+
+    useEffect(() => {
+        if (status === 'authenticated') {
+            router.replace('/dashboard');
+        }
+    }, [status, router]);
 
   
     const register = useForm<SignupType>({

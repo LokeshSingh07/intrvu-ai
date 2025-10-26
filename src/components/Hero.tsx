@@ -1,8 +1,13 @@
+'use client'
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles, FileText, Brain } from "lucide-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+
 
 const Hero = () => {
+  const router = useRouter()
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-20 pb-24">
       {/* Animated Background Elements */}
@@ -35,18 +40,19 @@ const Hero = () => {
           </p>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-fade-in animation-delay-500">
-            <Link href="/dashboard" passHref>
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 group"
-              >
-                <Brain className="w-5 h-5 mr-2 group-hover:animate-pulse" />
-                Start Mock Interview
-                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
-            <Link href="/" passHref>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16 animate-fade-in animation-delay-500">  
+            <Button
+              onClick={()=> {
+                router.push("/auth")
+              }}
+              size="lg"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 group"
+            >
+              <Brain className="w-5 h-5 mr-2 group-hover:animate-pulse" />
+              Start Mock Interview
+              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+            </Button>
+            {/* <Link href="/" passHref>
               <Button
                 size="lg"
                 variant="outline"
@@ -55,7 +61,7 @@ const Hero = () => {
                 <FileText className="w-5 h-5 mr-2 group-hover:animate-pulse" />
                 Build Resume
               </Button>
-            </Link>
+            </Link> */}
           </div>
 
           {/* Feature Grid */}

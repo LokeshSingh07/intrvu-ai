@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from 'sonner';
@@ -14,10 +14,10 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useRouter } from 'next/navigation';
-import { Loader2, Lock, User } from 'lucide-react';
+import { Loader2, Lock, Mail, Unlock } from 'lucide-react';
 import z from 'zod';
 import { SignInSchema, SignInType } from '@/schema/SignInSchema';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 
 
 
@@ -25,6 +25,8 @@ import { signIn } from 'next-auth/react';
 const SignUp = () => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
     const router = useRouter()
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const { status, update } = useSession();
 
 
   
@@ -36,6 +38,12 @@ const SignUp = () => {
         }
     })
 
+
+    useEffect(() => {
+        if (status === 'authenticated') {
+            router.replace('/dashboard');
+        }
+    }, [status, router]);
   
   
     const onSubmit: SubmitHandler<SignInType> = async(data: z.infer<typeof SignInSchema>) => {
@@ -53,8 +61,13 @@ const SignUp = () => {
                 return;
             }
             
-            toast("Logged in Successfully")
-            router.push("/dashboard")
+            toast("✅ Logged in successfully. Redirecting to dashboard...");
+            // Force revalidate session (ensures cookie sync before redirect)
+            await update(); 
+            
+            setTimeout(() => {
+                router.push("/dashboard");
+            }, 1000);
         }
         catch(err){
             toast('An unexpected error occurred')
@@ -82,7 +95,7 @@ const SignUp = () => {
                             <FormLabel>Email</FormLabel>
                             <FormControl>
                                 <div className='relative'>
-                                    <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                                    <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                                     <Input 
                                         placeholder="Enter you email address" 
                                         className='pl-10'
@@ -107,10 +120,21 @@ const SignUp = () => {
                                     <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                                     <Input 
                                         placeholder="Enter your password" 
-                                        type='password'
+                                        type={`${showPassword ? "text" : "password"}`}
                                         className='pl-10'
                                         {...field}
                                     />
+                                    <Button 
+                                        type="button"
+                                        onClick={()=> setShowPassword((prev) => !prev)}
+                                        className='absolute right-3 top-2 h-5 w-5 bg-gray-300 hover:bg-gray-50'
+                                    > 
+                                        {showPassword ? (
+                                            <Unlock className="h-5 w-5 text-gray-400" />
+                                        ) : (
+                                            <Lock className="h-5 w-5 text-gray-400" />
+                                        )}
+                                    </Button>
                                 </div>
                             </FormControl>
                             <FormMessage />
@@ -124,9 +148,9 @@ const SignUp = () => {
                     {
                         isSubmitting ? (
                         <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin"/> Creating your account...
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin"/>Signing you in, please wait...
                         </>
-                        ) : ("Create Account")
+                        ) : ("Log in")
                     }
                 </Button>
             </form>

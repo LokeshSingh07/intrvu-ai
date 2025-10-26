@@ -53,7 +53,7 @@ const InterviewSetup = () => {
 
   const modes = [
     {
-      id: 'chat',
+      id: 'text_chat',
       title: 'Text Chat',
       description: 'Type your responses',
       icon: MessageSquare
@@ -75,13 +75,13 @@ const InterviewSetup = () => {
 
 
   
-  const { register, handleSubmit, watch, setValue } = useForm<InterviewSetupType>({
+  const { register, handleSubmit, watch, setValue, formState: {errors},clearErrors  } = useForm<InterviewSetupType>({
     resolver: zodResolver(InterviewSetupSchema),
     defaultValues: {
       interviewType: InterviewType.BEHAVIORAL,
       difficultyLevel: DifficultyLevel.EASY,
       duration: Duration.MIN_60,
-      interviewMode: InterviewMode.TEXT_CHAT,
+      interviewMode: InterviewMode.VOICE,
       jobPosition: JobPosition.FULLSTACK_DEVELOPER,
       jobDescription: "",
       experienceLevel: ExperienceLevel.MID,
@@ -110,11 +110,12 @@ const InterviewSetup = () => {
       console.log("reponse: ", response)
 
 
-      toast("Interview session created")
+      toast("✅ Interview session created successfully! Redirecting you to the live interview…");
       router.push("/dashboard/live-interview")
     }
     catch(err){
-      toast("Error while creating interview")
+      toast("❌ Error while creating interview session. Please try again.");
+      console.error(err);
     }
     finally{
       setIsSubmitting(false);
@@ -260,7 +261,12 @@ const InterviewSetup = () => {
                 <CardDescription>Choose how you want to interact during the interview</CardDescription>
               </CardHeader>
               <CardContent>
-                <RadioGroup value={mode} onValueChange={(val) => setValue("interviewMode", val as any)}>
+                <RadioGroup value={mode} 
+                  onValueChange={(val) => {
+                    setValue("interviewMode", val as any)
+                    clearErrors("interviewMode");
+                  }}
+                >
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {modes.map((modeOption) => (
                       <div key={modeOption.id} className="flex items-center space-x-2">
@@ -278,6 +284,11 @@ const InterviewSetup = () => {
                     ))}
                   </div>
                 </RadioGroup>
+                {errors?.interviewMode && (
+                  <p className="text-sm font-semibold text-red-500 mt-1">
+                    {errors?.interviewMode?.message || "Select an interview mode"}
+                  </p>
+                )}
               </CardContent>
             </Card>
 
@@ -315,7 +326,11 @@ const InterviewSetup = () => {
                     id="job-description"
                     placeholder="Paste the job description here to get tailored questions..."
                     className="min-h-[100px]"
+                    {...register("jobDescription", {
+                      onChange: () => clearErrors("jobDescription")
+                    })}
                   />
+                  {errors.jobDescription && <p className="text-sm font-semibold text-red-500 mt-1">{"Write the description of the job."}</p>}
                 </div>
 
                 <div>
@@ -340,6 +355,7 @@ const InterviewSetup = () => {
                                 // add
                                 setValue("techStack", [...currentStack, tech]);
                               }
+                              if (errors.techStack) clearErrors("techStack");
                             }}
                           >
                             {tech}
@@ -347,7 +363,7 @@ const InterviewSetup = () => {
                         );
                       })}
                     </div>
-
+                   {errors.techStack && <p className="text-sm font-semibold text-red-500 mt-1">Select at least one technology</p>}
                 </div>
               </CardContent>
             </Card>

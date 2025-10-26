@@ -3,15 +3,31 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { LogOut, Menu, X } from "lucide-react";
 import { platformName } from "@/data/constant";
 import { signOut, useSession } from "next-auth/react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
   const {data:session, status} = useSession();
   const isLoggedIn = status === "authenticated";
+  const router = useRouter();
+
+
+
+  const handleLogout = async () => {
+    toast("Signing you out...");
+    await signOut({ redirect: false });
+
+    setTimeout(() => {
+      toast.success("Signed out successfully!");
+      router.push("/auth");
+    }, 800);
+  };
+
 
 
   return (
@@ -33,18 +49,16 @@ const Navbar = () => {
             </Link> 
             <Button 
               variant={"link"}
-              onClick={async()=>{
-                await signOut({callbackUrl: "/"})
-              }}
+              onClick={handleLogout}
             >
-              Logout
+              <LogOut className="mr-2 h-4 w-4" /> Logout
             </Button> 
             </> : 
           (
             <div>        
               <Link href={"/auth"}>
                 <Button className="ml-4" variant={"link"}>
-                  Signin
+                  Sign In
                 </Button>
               </Link>
               <Link href={"/auth"}>
@@ -74,21 +88,48 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden bg-white shadow-md">
           <ul className="flex flex-col gap-4 p-6">
-            <li>
-                <Link href={"/auth"}>
-                  <Button className="w-full" variant={"secondary"} onClick={() => setIsOpen(false)}> Singin</Button>
-                </Link>
-            </li>
-            <li>
-              <Link href={"/auth"}>
-                <Button
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
-                  onClick={() => setIsOpen(false)}
+           {isLoggedIn ? (
+              <>
+                <li>
+                  <Link href="/dashboard" onClick={() => setIsOpen(false)}>
+                    <Button className="w-full" variant="secondary">
+                      Dashboard
+                    </Button>
+                  </Link>
+                </li>
+                <li>
+                  <Button
+                    className="w-full border-2"
+                    variant="outline"
+                    onClick={() => {
+                      setIsOpen(false);
+                      handleLogout();
+                    }}
                   >
-                  Get Started
-                </Button>
-              </Link>
-            </li>
+                    <LogOut className="mr-2 h-4 w-4" /> Logout
+                  </Button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link href="/auth" onClick={() => setIsOpen(false)}>
+                    <Button className="w-full" variant="secondary">
+                      Sign In
+                    </Button>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/auth" onClick={() => setIsOpen(false)}>
+                    <Button
+                      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+                    >
+                      Get Started
+                    </Button>
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       )}

@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Play, Target, TrendingUp, Clock, Star, BookOpen, Users, Award } from "lucide-react";
+import { Play, Target, TrendingUp, Clock, Star, BookOpen, Users, Award, Loader2 } from "lucide-react";
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import QuickAction from './_components/QuickAtion';
@@ -20,6 +20,19 @@ import { dashboardStats } from '@/actions/interview';
 const Dashboard = () => {
   const router  = useRouter();
   const { data: session, status } = useSession();
+  const [loading, setLoading] = useState<boolean>(true);
+
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.replace("/auth");
+      toast("You must be logged in to access the dashboard");
+    }
+  }, [status, router]);
+
+
+
+
   const [stats, setStats] = useState<{
     totalInterviewCount: number,
     rating: number,
@@ -39,6 +52,9 @@ const Dashboard = () => {
       }catch(err){
         toast("error while fetching dashboard details")
       }
+      finally{
+        setLoading(false); 
+      }
     }
 
     fetch();
@@ -55,6 +71,19 @@ const Dashboard = () => {
     { id: 2, type: "Technical", score: 78, date: "1 week ago", duration: "45 min" },
     { id: 3, type: "System Design", score: 92, date: "2 weeks ago", duration: "60 min" },
   ];
+
+
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-50">
+        <div className="flex flex-col items-center">
+          <Loader2 className="w-10 h-10 text-blue-600 animate-spin mb-4" />
+          <p className="text-gray-600 text-sm">Loading your dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
 
   return (
@@ -74,21 +103,27 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="flex gap-3">
-              <Link href="/dashboard/interview-setup">
-                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                  <Play className="w-4 h-4 mr-2" />
-                  Start Interview
-                </Button>
-              </Link>
+              <Button 
+                onClick={() => router.push("/dashboard/interview-setup")}            
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+              >
+                <Play className="w-4 h-4 mr-2" />
+                Start Interview
+              </Button>
+              
               <Button variant="outline" className="border-2" 
                 onClick={async()=>{
                   await signOut({ redirect: false });
-                  router.push("/dashboard");
+                  
+                  setTimeout(()=>{
+                    toast.success("Signed out successfully!");
+                    router.push("/auth");
+                  },800)
                 }}
               >
                 Logout
               </Button>
-              </div>
+            </div>
           </div>
         </div>
       </div>
