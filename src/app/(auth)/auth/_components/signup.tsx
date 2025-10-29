@@ -56,22 +56,9 @@ const SignUp = () => {
                 toast("Error creating account");
                 return;
             }
-
-            const signInResponse = await signIn('credentials', {
-                redirect: false,
-                identifier: data.email,
-                password: data.password,
-            })
-
-            if (signInResponse?.error) {
-                toast('Failed to sign in after signup');
-                console.log(signInResponse.error)
-                return;
-            }
             
-            router.push("/dashboard")
-            toast("Account created successfully")
-
+            router.push(`/auth/verify?email=${data.email}`)
+            toast("Account created. Please verify your email before logging in.");
         }
         catch(err){
             toast("An unexpected error occurred")

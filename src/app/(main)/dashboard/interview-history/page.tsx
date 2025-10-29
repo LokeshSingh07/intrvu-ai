@@ -119,128 +119,45 @@ const InterviewHistory = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <div className="border-b bg-card">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+        <div className="container mx-auto px-4 sm:px-6 py-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            
+            {/* Left: Back button + Title */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4">
               <Link href="/dashboard">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="flex items-center">
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to Dashboard
                 </Button>
               </Link>
               <div>
-                <h1 className="text-2xl font-bold">Interview History & Reports</h1>
-                <p className="text-muted-foreground">Detailed analysis of all your practice sessions</p>
+                <h1 className="text-lg sm:text-2xl font-bold">Interview History & Reports</h1>
+                <p className="text-xs sm:text-sm text-muted-foreground">
+                  Detailed analysis of all your practice sessions
+                </p>
               </div>
             </div>
-            <Button>
-              <Download className="w-4 h-4 mr-2" />
-              Export Report
-            </Button>
+
+            {/* Right: Export Button */}
+            {/* <div className="flex justify-end">
+              <Button className="flex items-center">
+                <Download className="w-4 h-4 mr-2" />
+                Export Report
+              </Button>
+            </div> */}
+
           </div>
         </div>
       </div>
 
+
       <div className="container mx-auto px-6 py-8">
         <Tabs defaultValue="interviews" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="interviews">All Interviews</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview" className="space-y-6">
-            {/* Quick Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Total Interviews</CardTitle>
-                  <Target className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{allInterviews.length}</div>
-                  <p className="text-xs text-muted-foreground">All time</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Average Score</CardTitle>
-                  <BarChart3 className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{averageScore}%</div>
-                  <div className="flex items-center text-xs text-muted-foreground">
-                    {improvementTrend > 0 ? (
-                      <TrendingUp className="w-3 h-3 mr-1 text-green-500" />
-                    ) : (
-                      <TrendingDown className="w-3 h-3 mr-1 text-red-500" />
-                    )}
-                    {Math.abs(improvementTrend)}% trend
-                  </div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Total Practice Time</CardTitle>
-                  <Clock className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{Math.floor(totalDuration / 60)}h {totalDuration % 60}m</div>
-                  <p className="text-xs text-muted-foreground">All sessions</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Best Score</CardTitle>
-                  <Star className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{Math.max(...allInterviews.map(i => i.score))}%</div>
-                  <p className="text-xs text-muted-foreground">Personal best</p>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Recent Interviews Summary */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Recent Performance</CardTitle>
-                <CardDescription>Your last 3 interviews with detailed feedback</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  {allInterviews.slice(0, 3).map((interview) => (
-                    <div key={interview.id} className="p-4 border rounded-lg">
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center space-x-3">
-                          <div className="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center">
-                            <Play className="h-5 w-5 text-primary" />
-                          </div>
-                          <div>
-                            <h3 className="font-medium">{interview.type} Interview</h3>
-                            <p className="text-sm text-muted-foreground">{interview.date} • {interview.duration}</p>
-                          </div>
-                        </div>
-                        <Badge variant={interview.score >= 80 ? "default" : "secondary"}>
-                          {interview.score}%
-                        </Badge>
-                      </div>
-                      <div className="space-y-2">
-                        <p className="text-sm text-muted-foreground">{interview.feedback}</p>
-                        <div className="flex flex-wrap gap-2">
-                          {interview.strengths.map((strength, index) => (
-                            <Badge key={index} variant="outline" className="text-green-600 border-green-200">
-                              {strength}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
 
           <TabsContent value="interviews" className="space-y-6">
             {/* Filters */}

@@ -4,7 +4,7 @@ import GithubProvider from "next-auth/providers/github"
 import CredentialsProvider from "next-auth/providers/credentials"
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-
+import crypto from "crypto";
 
 
 
@@ -38,6 +38,9 @@ export const authOptions: NextAuthOptions = {
         if (!user) {
           throw new Error('No user found with this email');
         }
+        if (!user.isVerified) {
+          throw new Error("Please verify your email before logging in");
+        }
 
         const isValid = await bcrypt.compare(credentials.password, user.password);
         if (!isValid) {
@@ -62,18 +65,47 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      // console.log("credentials : ", credentials)
-      if (!user.email) {
+      try{
+        // console.log("Provider:", account?.provider);
+        // console.log("User:", user);
+        if (!user.email) {
+          return false;
+        }
+
+        let existingUser  = await prisma.user.findUnique({
+            where: { email: user.email },
+        });
+
+        if (!existingUser) {
+          const strongPassword = crypto.randomBytes(16).toString("hex");
+
+          existingUser = await prisma.user.create({
+            data: {
+              email: user.email,
+              fullName: user.name || profile?.name || "Unnamed User",
+              image: user.image || null,
+              password: strongPassword,
+              verifyCode: crypto.randomInt(100000, 999999).toString(),
+              isVerified: true,
+              experienceLevel: "junior",
+              targetCompanySize: "small",
+              industry: [],
+              targetRoles: [],
+              focusArea: [],
+              provider: account?.provider || "credentials",
+            },
+          });
+        }
+        
+        user.id = existingUser.id;
+        user.name = existingUser.fullName;
+
+        return true
+      }
+      catch(err){
+         console.log("SIGNIN ERROR: ", err);
         return false;
       }
-
-      const userInfo = await prisma.user.findUnique({
-          where: { email: user.email },
-      });
-      
-      user.name = userInfo?.fullName;
-
-      return true
     },
     async jwt({ token, user }) {
       // console.log("user : ", user);

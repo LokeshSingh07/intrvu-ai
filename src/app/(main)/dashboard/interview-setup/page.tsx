@@ -18,13 +18,15 @@ import { InterviewSetupSchema, InterviewSetupType } from '@/schema/InterviewSetu
 import { toast } from 'sonner';
 import { createInterviewSession } from '@/actions/interview';
 import { CompanySize, DifficultyLevel, Duration, ExperienceLevel, InterviewMode, InterviewType, JobPosition } from '@/types/enum';
+import { useDispatch } from 'react-redux';
+import { setInterviewData } from '@/redux/slice/interviewSlice';
 
 
 
 const InterviewSetup = () => {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const router = useRouter()
-  
+   const dispatch = useDispatch();
 
   const interviewTypes = [
     {
@@ -78,9 +80,9 @@ const InterviewSetup = () => {
   const { register, handleSubmit, watch, setValue, formState: {errors},clearErrors  } = useForm<InterviewSetupType>({
     resolver: zodResolver(InterviewSetupSchema),
     defaultValues: {
-      interviewType: InterviewType.BEHAVIORAL,
+      interviewType: InterviewType.TECHNICAL,
       difficultyLevel: DifficultyLevel.EASY,
-      duration: Duration.MIN_60,
+      duration: Duration.MIN_15,
       interviewMode: InterviewMode.VOICE,
       jobPosition: JobPosition.FULLSTACK_DEVELOPER,
       jobDescription: "",
@@ -107,8 +109,9 @@ const InterviewSetup = () => {
       setIsSubmitting(true);
 
       const response = await createInterviewSession(data);
-      console.log("reponse: ", response)
+      console.log("reponse: ", response.data)
 
+      dispatch(setInterviewData(response.data));
 
       toast("✅ Interview session created successfully! Redirecting you to the live interview…");
       router.push("/dashboard/live-interview")

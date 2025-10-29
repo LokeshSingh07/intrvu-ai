@@ -17,46 +17,46 @@ const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 
 
-export async function dashboardStats(){
-    try{
-        const session = await getServerSession(authOptions)
+// export async function dashboardStats(){
+//     try{
+//         const session = await getServerSession(authOptions)
 
-        if(!session || !session?.user?.email){
-            return errorResponse("Unauthorized: User not logged in");
-        }
+//         if(!session || !session?.user?.email){
+//             return errorResponse("Unauthorized: User not logged in");
+//         }
 
-        // fetch dashboard stats
-        const totalInterviews = await prisma.interviewSession.count({
-            where: {userId: session?.user?.id}
-        })
+//         // fetch dashboard stats
+//         const totalInterviews = await prisma.interviewSession.count({
+//             where: {userId: session?.user?.id}
+//         })
 
-        const recentInterviews = await prisma.interviewSession.findMany({
-            where: {
-                userId : session?.user?.id
-            },
-            // orderBy: { createdAt: "desc "},
-            take: 4
-        })
+//         const recentInterviews = await prisma.interviewSession.findMany({
+//             where: {
+//                 userId : session?.user?.id
+//             },
+//             // orderBy: { createdAt: "desc "},
+//             take: 4
+//         })
 
-        const averageRating = 5;
-        const accuracy = 10;
+//         const averageRating = 5;
+//         const accuracy = 10;
 
-        const result = {
-            totalInterviewCount: totalInterviews,
-            rating: averageRating,
-            accuracy,
-            recentInterviews
-        };
+//         const result = {
+//             totalInterviewCount: totalInterviews,
+//             rating: averageRating,
+//             accuracy,
+//             recentInterviews
+//         };
 
-        console.log("result :", result);
+//         console.log("result :", result);
 
-        return successResponse(result, "Interview sessions fetched successfully");
-    }
-    catch(err){
-        console.log("Error in dashboardStats -> ", err)
-        return errorResponse();
-    }
-}
+//         return successResponse(result, "Interview sessions fetched successfully");
+//     }
+//     catch(err){
+//         console.log("Error in dashboardStats -> ", err)
+//         return errorResponse();
+//     }
+// }
 
 
 

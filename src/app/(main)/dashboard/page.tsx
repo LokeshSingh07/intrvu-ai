@@ -1,6 +1,5 @@
 'use client'
 
-
 import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,7 +13,9 @@ import QuickAction from './_components/QuickAtion';
 import Suggestions from './_components/Suggestions';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { dashboardStats } from '@/actions/interview';
+import axios from "axios";
+import { formatDate } from '@/lib/formatDate';
+
 
 
 const Dashboard = () => {
@@ -38,17 +39,21 @@ const Dashboard = () => {
     rating: number,
     accuracy: number,
     recentInterviews: any[]
-  }>({totalInterviewCount:0, rating: 0, accuracy: 0, recentInterviews: []})
+  } | null>({totalInterviewCount:0, rating: 0, accuracy: 0, recentInterviews: []})
 
 
 
   useEffect(()=>{
     const fetch = async()=>{
       try{
-        const response = await dashboardStats();
-        // console.log("response: ", response.data);
+        const response = await axios.get("/api/dashboard");
 
-        setStats(response?.data)
+        if(!response.data.success){
+          toast("error while fetching dashboard details")
+        }
+        // console.log("response: ", response);
+
+        setStats(response?.data?.data)
       }catch(err){
         toast("error while fetching dashboard details")
       }
@@ -90,43 +95,54 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white border-b">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
+        <div className="container mx-auto px-4 sm:px-6 py-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            
+            {/* Left: Avatar + Welcome */}
             <div className="flex items-center space-x-4">
               <Avatar className="h-10 w-10">
                 <AvatarImage src="/placeholder.svg" />
                 <AvatarFallback>JD</AvatarFallback>
               </Avatar>
               <div>
-                <h1 className="text-xl font-semibold text-gray-900">Welcome back, {session?.user?.name}</h1>
-                <p className="text-sm text-gray-600">Ready to ace your next interview?</p>
+                <h1 className="text-lg sm:text-xl font-semibold text-gray-900">
+                  Welcome back, {session?.user?.name}
+                </h1>
+                <p className="text-xs sm:text-sm text-gray-600">
+                  Ready to ace your next interview?
+                </p>
               </div>
             </div>
-            <div className="flex gap-3">
-              <Button 
-                onClick={() => router.push("/dashboard/interview-setup")}            
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+
+            {/* Right: Buttons */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+              <Button
+                onClick={() => router.push("/dashboard/interview-setup")}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 h-10 sm:h-12 flex items-center justify-center"
               >
                 <Play className="w-4 h-4 mr-2" />
                 Start Interview
               </Button>
-              
-              <Button variant="outline" className="border-2" 
-                onClick={async()=>{
+
+              <Button
+                variant="outline"
+                className="border-2 h-10 sm:h-12"
+                onClick={async () => {
                   await signOut({ redirect: false });
-                  
-                  setTimeout(()=>{
+                  setTimeout(() => {
                     toast.success("Signed out successfully!");
                     router.push("/auth");
-                  },800)
+                  }, 800);
                 }}
               >
                 Logout
               </Button>
             </div>
+
           </div>
         </div>
       </div>
+
 
       <div className="container mx-auto px-6 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -175,22 +191,30 @@ const Dashboard = () => {
               <CardContent>
                 <div className="space-y-4">
                   {stats?.recentInterviews?.map((interview) => (
-                    <div key={interview?.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors">
-                      <div className="flex items-center space-x-4">
-                        <div className="h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
-                          <Play className="h-5 w-5 text-blue-600" />
+                    <div key={interview.id} className="p-4 border rounded-lg">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center space-x-3">
+                          <div className="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center">
+                            <Play className="h-5 w-5 text-primary" />
+                          </div>
+                          <div>
+                            <h3 className="font-medium capitalize">{interview?.interviewType} Interview</h3>
+                            <p className="text-sm text-muted-foreground">{formatDate(interview?.createdAt)} • {interview?.duration.split("_")[1]} min</p>
+                          </div>
                         </div>
-                        <div>
-                          <p className="font-medium">{interview?.interviewType} Interview</p>
-                          <p className="font-medium">{interview?.duration} min</p>
-                          {/* <p className="text-sm text-gray-600">{interview?.createdAt} • {interview?.duration}</p> */}
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <Badge variant={interview?.rating >= 5 ? "default" : "secondary"}>
-                          {interview?.rating}
+                        <Badge variant={interview?.rating >= 8 ? "default" : "secondary"}>
+                          {(interview?.rating * 10) || 0}%
                         </Badge>
-                        <Button variant="ghost" size="sm">View</Button>
+                      </div>
+                      <div className="space-y-2">
+                        <p className="text-sm text-muted-foreground">{interview?.feedback || "no feedback available"}</p>
+                        <div className="flex flex-wrap gap-2">
+                          {/* {interview?.strengths.length > 0 && interview?.strengths?.map((strength, index) => (
+                            <Badge key={index} variant="outline" className="text-green-600 border-green-200">
+                              {strength}
+                            </Badge>
+                          ))} */}
+                        </div>
                       </div>
                     </div>
                   ))}

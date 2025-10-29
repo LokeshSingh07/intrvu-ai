@@ -87,6 +87,8 @@ model User{
   bio                       String?
   resume                    String?
   verifyCode                String
+  isVerified                Boolean         @default(false)
+  provider                  String          @default("credential")
   image                     String?
   createdAt                 DateTime        @default(now())
   updatedAt                 DateTime        @updatedAt
@@ -117,6 +119,7 @@ model InterviewSession{
   faceMoveCount             String?
   feedback                  String?
   rating                    String?
+  strengths                 String[]
   createdAt                 DateTime        @default(now())
   answers                   Question[]
 }

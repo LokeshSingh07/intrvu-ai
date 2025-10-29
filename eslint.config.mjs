@@ -33,7 +33,17 @@ const eslintConfig = [
       "@typescript-eslint/no-unsafe-function-type": "off",
       "@typescript-eslint/no-wrapper-object-types": "off",
       "@typescript-eslint/no-unnecessary-type-constraint": "off",
-      
+      "@typescript-eslint/ban-ts-comment": [
+        "warn",
+        {
+          "ts-expect-error": true,
+          "ts-ignore": true,
+          "ts-nocheck": true,
+          "ts-check": false,
+          "minimumDescriptionLength": 0,
+        }
+      ],
+
     },
   },
 ];
