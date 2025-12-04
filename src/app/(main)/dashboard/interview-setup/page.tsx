@@ -54,26 +54,75 @@ const InterviewSetup = () => {
   
 
   const modes = [
-    {
-      id: 'text_chat',
-      title: 'Text Chat',
-      description: 'Type your responses',
-      icon: MessageSquare
-    },
+    // {
+    //   id: 'text_chat',
+    //   title: 'Text Chat',
+    //   description: 'Type your responses',
+    //   icon: MessageSquare
+    // },
     {
       id: 'voice',
       title: 'Voice',
       description: 'Speak your answers',
       icon: Mic
     },
-    {
-      id: 'video',
-      title: 'Video',
-      description: 'Full video interview experience',
-      icon: Video
-    }
+    // {
+    //   id: 'video',
+    //   title: 'Video',
+    //   description: 'Full video interview experience',
+    //   icon: Video
+    // }
   ];
 
+  
+  // Default Job Descriptions
+  const defaultDescriptions: Record<string, string> = {
+    frontend_developer:
+      "Fresher with strong basics in HTML, CSS, JavaScript, and frontend frameworks. Excited to build clean UI and learn best practices.",
+    backend_developer:
+      "Fresher who understands APIs, databases, server side logic, and backend fundamentals. Eager to write clean and scalable code.",
+    fullstack_developer:
+      "Fresher with basic knowledge of both frontend and backend. Ready to build end-to-end features and learn full-stack development.",
+    tester:
+      "Fresher passionate about testing, bug finding, writing test cases, and improving product quality.",
+    data_scientist:
+      "Fresher with strong basics in Python, statistics, and machine learning concepts. Interested in exploring data and building models.",
+    system_designer:
+      "Fresher curious about system design basics like scalability, caching, APIs, and database architecture.",
+    devops_engineer:
+      "Fresher with basic understanding of CI/CD, cloud platforms, automation, and development workflows."
+  };
+
+  const techOptions = [
+    // Frontend
+    "HTML", "CSS", "JavaScript", "TypeScript",
+    "React", "Next.js", "Vue.js", "Angular", 
+    "Tailwind CSS", "Bootstrap",
+
+    // Backend
+    "Node.js", "Express.js", "NestJS", 
+    "Django", "Flask", "FastAPI",
+    "Spring Boot", "Laravel",
+
+    // Databases
+    "MongoDB", "MySQL", "PostgreSQL", "SQLite",
+    "Redis", "Firebase", "Supabase",
+
+    // DevOps / Cloud
+    "Docker", "Kubernetes", "AWS", "GCP", "Azure",
+    "CI/CD", "GitHub Actions", "Jenkins",
+
+    // Testing
+    "Jest", "Mocha", "Cypress", "Playwright",
+
+    // Mobile / Cross-platform
+    "React Native", "Flutter",
+
+    // Other in-demand technologies
+    "GraphQL", "REST APIs", "Prisma", "ORM", 
+    "Kafka", "RabbitMQ",
+    "Linux", "Git"
+  ];
 
 
   
@@ -85,9 +134,9 @@ const InterviewSetup = () => {
       duration: Duration.MIN_15,
       interviewMode: InterviewMode.VOICE,
       jobPosition: JobPosition.FULLSTACK_DEVELOPER,
-      jobDescription: "",
+      jobDescription: "Looking for a fresher with strong basics in HTML, CSS, JavaScript, and modern frontend frameworks. Someone who enjoys building clean UI and learning best practices.",
       experienceLevel: ExperienceLevel.MID,
-      techStack: [],
+      techStack: ["React", "Node.js"],
       // targetCompanySize: CompanySize.SMALL,
     }
   })
@@ -226,22 +275,22 @@ const InterviewSetup = () => {
                       <Slider
                         value={[duration]}
                         onValueChange={(val) => setValue("duration", val[0])}
-                        max={120}
-                        min={15}
-                        step={15}
+                        max={60}
+                        min={10}
+                        step={5}
                         className="w-full"
                       />
                     </div>
                     <div className="flex items-center justify-between text-sm text-gray-600">
-                      <span>15 min</span>
+                      <span>10 min</span>
                       <div className="flex items-center space-x-1">
                         <Clock className="h-4 w-4" />
                         <span className="font-semibold text-lg text-gray-900">{duration} minutes</span>
                       </div>
-                      <span>120 min</span>
+                      <span>60 min</span>
                     </div>
                     <div className="grid grid-cols-4 gap-2 mt-4">
-                      {[15, 30, 45, 60].map((time) => (
+                      {[10, 20, 30, 45].map((time) => (
                         <Button
                           key={time}
                           variant={duration === time ? "default" : "outline"}
@@ -306,7 +355,11 @@ const InterviewSetup = () => {
                   <Label htmlFor="job-role">Target Job Role</Label>
                   <Select 
                     value={jobPosition}
-                    onValueChange={(val)=> setValue("jobPosition", val as JobPosition)}
+                    onValueChange={(val)=> {
+                      setValue("jobPosition", val as JobPosition)
+                      setValue("jobDescription", defaultDescriptions[val] || "");
+                      clearErrors("jobDescription");
+                    }}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select a job role" />
@@ -339,7 +392,7 @@ const InterviewSetup = () => {
                 <div>
                     <Label htmlFor="focus-areas">Tech Stack</Label>
                     <div className="flex flex-wrap gap-2 mt-2">
-                      {['React', 'Node.js', 'TypeScript', 'Python', 'Java', 'C++', 'SQL', 'MongoDB'].map((tech) => {
+                      {techOptions?.map((tech) => {
                         const selected = watch("techStack")?.includes(tech);
                         return (
                           <Badge

@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
     // Fetch latest 4 interviews
     const recentInterviews = await prisma.interviewSession.findMany({
       where: { userId },
-      take: 4,
+      take: 10,
       orderBy: { createdAt: "desc" },
     });
 

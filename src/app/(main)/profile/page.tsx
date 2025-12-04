@@ -49,7 +49,7 @@ const Profile = () => {
             {/* Personal Information, RESUME, Jobpreference */}
             <ProfileInfo profileInfo={session?.user } />
 
-            <Resume/>
+            {/* <Resume/> */}
 
             <JobPreference/>
           </div>

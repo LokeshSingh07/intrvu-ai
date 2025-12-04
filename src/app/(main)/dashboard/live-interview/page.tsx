@@ -10,6 +10,7 @@ import { vapi } from '@/lib/vapi.sdk';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux';
 import { useSession } from 'next-auth/react';
+import { generateFeedbackForInterview } from '@/actions/interview';
 
 enum CallStatus {
   INACTIVE = 'INACTIVE',
@@ -31,14 +32,19 @@ export default function LiveInterview() {
   const [messages, setMessages] = useState<SavedMessage[]>([]);
   const { data: session } = useSession();
   const interviewData = useSelector((state: RootState) => state.interview);
+  // console.log("interview data : ", interviewData)
+  const interviewSessionId = interviewData?.interviewData?.interview?.id;
+  // console.log("interviewSessionId : ", interviewSessionId)
 
 
-
-  const saveTranscript = async () => {
+  const generateFeedback = async () => {
     if (!messages.length) return;
     try {
-      console.log('transcript data: ', messages);
-      toast('✅ Transcript saved successfully!');
+      const response = await generateFeedbackForInterview(messages, interviewSessionId);
+      
+      console.log("feedback resonse : ", response);
+
+      toast('✅ Report generated successfully!');
     } catch (err: any) {
       console.error('Save transcript error:', err);
       toast('❌ Failed to save transcript');
@@ -85,7 +91,7 @@ export default function LiveInterview() {
 
   useEffect(() => {
     if (callStatus === CallStatus.FINISHED) {
-      // saveTranscript();
+      // generateFeedback();
     }
   }, [callStatus]);
 
@@ -163,7 +169,7 @@ export default function LiveInterview() {
     try {
       await vapi.stop();
       setCallStatus(CallStatus.FINISHED);
-      await saveTranscript();
+      await generateFeedback();
     } catch (err) {
       console.error('Disconnect failed:', err);
       toast('❌ Failed to end call');
@@ -304,7 +310,7 @@ return (
               </p>
               <Button
                 size="lg"
-                onClick={() => router.push("interview-history/report")} // replace with your report page route
+                onClick={() => router.push(`interview-history/${interviewSessionId}`)} // replace with your report page route
                 className="gap-3 text-lg font-semibold px-8 py-5 rounded-xl 
                   bg-gradient-to-r from-blue-600 to-purple-600 
                 hover:from-blue-500 hover:to-purple-500 shadow-md hover:shadow-green-500/25 transition-all duration-300"

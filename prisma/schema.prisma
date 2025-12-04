@@ -50,12 +50,17 @@ enum DifficultyLevel {
 }
 
 enum Duration {
+  MIN_10   @map("10")
   MIN_15   @map("15")
+  MIN_20   @map("20")
+  MIN_25   @map("25")
   MIN_30   @map("30")
+  MIN_35   @map("35")
+  MIN_40   @map("40")
   MIN_45   @map("45")
+  MIN_50   @map("50")
+  MIN_55   @map("55")
   MIN_60   @map("60")
-  MIN_90   @map("90")
-  MIN_120  @map("120")
 }
 
 enum InterviewMode {
@@ -108,6 +113,8 @@ model InterviewSession{
   id                        String          @id       @default(uuid())
   userId                    String
   user                      User            @relation(fields: [userId], references: [id])
+
+  // Interview metadat
   interviewType             InterviewType
   difficultyLevel           DifficultyLevel
   duration                  Duration
@@ -116,10 +123,14 @@ model InterviewSession{
   jobDescription            String
   experienceLevel           ExperienceLevel
   techStack                 String[]
-  faceMoveCount             String?
-  feedback                  String?
+
+  // overall performance and feedback
   rating                    String?
+  summary                   String?
   strengths                 String[]
+  improvements              String[]
+
+  faceMoveCount             String?
   createdAt                 DateTime        @default(now())
   answers                   Question[]
 }
@@ -132,8 +143,12 @@ model Question{
   interviewSession          InterviewSession          @relation(fields: [interviewSessionId], references: [id])
   question                  String
   correctAnswer             String
-  userAnswer                String 
+  userAnswer                String
+  isCorrect                 Boolean?
+  rating                    Int?
   feedback                  String
+  strengths                 String[]
+  improvements              String[]
 }
 
 

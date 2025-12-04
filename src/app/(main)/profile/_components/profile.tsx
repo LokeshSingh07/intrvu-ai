@@ -50,7 +50,7 @@ const ProfileInfo = ({profileInfo}: ProfileInfoProps) => {
         <div className="flex items-center space-x-6">
           <Avatar className="h-20 w-20">
             <AvatarImage src="/placeholder.svg" />
-            <AvatarFallback>JD</AvatarFallback>
+            <AvatarFallback>{profileInfo.name?.split(" ")[0][0]}</AvatarFallback>
           </Avatar>
           <div>
             <Button variant="outline" size="sm">

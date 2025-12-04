@@ -34,12 +34,17 @@ export enum DifficultyLevel {
 }
 
 export enum Duration {
+  MIN_10 = 10,
   MIN_15 = 15,
+  MIN_20 = 20,
+  MIN_25 = 25,
   MIN_30 = 30,
+  MIN_35 = 35,
+  MIN_40 = 40,
   MIN_45 = 45,
+  MIN_50 = 50,
+  MIN_55 = 55,
   MIN_60 = 60,
-  MIN_90 = 90,
-  MIN_120 = 120,
 }
 
 export enum InterviewMode {

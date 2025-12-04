@@ -3,10 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Play, Target, TrendingUp, Clock, Star, BookOpen, Users, Award, Loader2 } from "lucide-react";
+import { Play, Target, TrendingUp, Clock, Loader2 } from "lucide-react";
 import Link from 'next/link';
 import { signOut, useSession } from 'next-auth/react';
 import QuickAction from './_components/QuickAtion';
@@ -51,7 +50,7 @@ const Dashboard = () => {
         if(!response.data.success){
           toast("error while fetching dashboard details")
         }
-        // console.log("response: ", response);
+        console.log("response: ", response);
 
         setStats(response?.data?.data)
       }catch(err){
@@ -67,15 +66,6 @@ const Dashboard = () => {
 
 
 
-
-
-
-
-  const recentInterviews = [
-    { id: 1, type: "Behavioral", score: 85, date: "2 days ago", duration: "25 min" },
-    { id: 2, type: "Technical", score: 78, date: "1 week ago", duration: "45 min" },
-    { id: 3, type: "System Design", score: 92, date: "2 weeks ago", duration: "60 min" },
-  ];
 
 
 
@@ -102,7 +92,7 @@ const Dashboard = () => {
             <div className="flex items-center space-x-4">
               <Avatar className="h-10 w-10">
                 <AvatarImage src="/placeholder.svg" />
-                <AvatarFallback>JD</AvatarFallback>
+                <AvatarFallback>{session?.user?.name?.split("")[0] || "L"}</AvatarFallback>
               </Avatar>
               <div>
                 <h1 className="text-lg sm:text-xl font-semibold text-gray-900">
@@ -207,7 +197,7 @@ const Dashboard = () => {
                         </Badge>
                       </div>
                       <div className="space-y-2">
-                        <p className="text-sm text-muted-foreground">{interview?.feedback || "no feedback available"}</p>
+                        <p className="text-sm text-muted-foreground">{interview?.summary || "no feedback available"}</p>
                         <div className="flex flex-wrap gap-2">
                           {/* {interview?.strengths.length > 0 && interview?.strengths?.map((strength, index) => (
                             <Badge key={index} variant="outline" className="text-green-600 border-green-200">
