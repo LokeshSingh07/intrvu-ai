@@ -27,14 +27,18 @@ interface SavedMessage {
 
 export default function LiveInterview() {
   const router = useRouter();
+  const { data: session } = useSession();
+
+  const interviewData = useSelector((state: RootState) => state.interview);
+  // @ts-ignore
+  const interviewSessionId = interviewData?.interviewData?.interview?.id;
+  // console.log("interview data : ", interviewData)
+  // console.log("interviewSessionId : ", interviewSessionId)
+
+
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
   const [messages, setMessages] = useState<SavedMessage[]>([]);
-  const { data: session } = useSession();
-  const interviewData = useSelector((state: RootState) => state.interview);
-  // console.log("interview data : ", interviewData)
-  const interviewSessionId = interviewData?.interviewData?.interview?.id;
-  // console.log("interviewSessionId : ", interviewSessionId)
 
 
   

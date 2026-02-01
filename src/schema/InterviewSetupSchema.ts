@@ -13,6 +13,7 @@ import {
 
 
 export const InterviewSetupSchema = z.object({
+    id: z.string().optional(),
     interviewType: z.nativeEnum(InterviewType),
     difficultyLevel:z.nativeEnum(DifficultyLevel),
     duration: z.nativeEnum(Duration),
@@ -21,8 +22,8 @@ export const InterviewSetupSchema = z.object({
     jobDescription: z.string(),
     experienceLevel: z.nativeEnum(ExperienceLevel),
     techStack: z.array(z.string()).min(1),
-    targetCompanySize: z.nativeEnum(CompanySize).optional()
-
+    targetCompanySize: z.nativeEnum(CompanySize).optional(),
+    questions: z.array(z.object({question: z.string()})).optional(),
 })
 
 

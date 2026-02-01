@@ -6,7 +6,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { interviewId: string } }
+  { params }: { params: Promise<{ interviewId: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -18,9 +18,14 @@ export async function GET(
       );
     }
 
-    console.log("params : ", params)
+    // console.log("params : ", params)
+    // const userId = session.user.id;
+    // const interviewId = params.interviewId;
+
+    const resolvedParams = await params;               // await the Promise
+    const { interviewId } = resolvedParams;            // now safe to destructure
+
     const userId = session.user.id;
-    const interviewId = params.interviewId;
 
     if (!interviewId) {
       return NextResponse.json(
