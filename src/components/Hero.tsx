@@ -19,23 +19,21 @@ const Hero = () => {
           {/* Badge */}
           <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full text-sm font-medium text-gray-700 mb-8 animate-fade-in border border-blue-200/50 backdrop-blur-sm">
             <Sparkles className="w-4 h-4 mr-2 text-blue-500 animate-pulse" />
-            College Final Year Project • AI Interview System
+            AI-Powered Interview Platform
           </div>
 
           {/* Heading */}
           <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight animate-fade-in">
-            AI-Powered{" "}
+            Transform Your{" "}
             <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-pulse">
-              Mock Interview
+              Hiring Process
             </span>{" "}
-            Platform
+            with AI
           </h1>
 
           {/* Subtext */}
           <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in animation-delay-300">
-            A smart interview practice system built using Next.js, TypeScript,
-            VAPI for real-time voice interaction, Grok API for AI questions, and
-            PostgreSQL + Prisma for secure data storage.
+           Streamline interviews, eliminate bias, and identify top talent with our intelligent interview platform that adapts to your unique hiring needs.
           </p>
 
           {/* Action Buttons */}
@@ -48,7 +46,7 @@ const Hero = () => {
               className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 group"
             >
               <Brain className="w-5 h-5 mr-2 group-hover:animate-pulse" />
-              Start AI Interview
+              Start Mock Interview
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
             </Button>
           </div>
@@ -58,8 +56,8 @@ const Hero = () => {
 
             {/* Feature 1 */}
             <div className="p-6 backdrop-blur-sm bg-white/50 rounded-2xl border border-gray-200/50 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
-              <div className="w-16 h-16 bg-gradient-to-r from-green-400 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse">
-                <span className="text-2xl font-bold text-white">Real-Time</span>
+              <div className="w-16 h-16 bg-gradient-to-r from-green-400 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse delay-500">
+                <span className="text-sm font-bold text-white">Real Time</span>
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Voice Interaction</h3>
               <p className="text-gray-600">
@@ -69,8 +67,8 @@ const Hero = () => {
 
             {/* Feature 2 */}
             <div className="p-6 backdrop-blur-sm bg-white/50 rounded-2xl border border-gray-200/50 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse delay-200">
-                <span className="text-2xl font-bold text-white">AI</span>
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse delay-500">
+                <span className="text-sm font-bold text-white">AI</span>
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Dynamic Questions</h3>
               <p className="text-gray-600">
@@ -80,8 +78,8 @@ const Hero = () => {
 
             {/* Feature 3 */}
             <div className="p-6 backdrop-blur-sm bg-white/50 rounded-2xl border border-gray-200/50 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2">
-              <div className="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse delay-400">
-                <span className="text-2xl font-bold text-white">Secure</span>
+              <div className="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4 animate-pulse delay-500">
+                <span className="text-sm font-bold text-white">Secure</span>
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Data Management</h3>
               <p className="text-gray-600">

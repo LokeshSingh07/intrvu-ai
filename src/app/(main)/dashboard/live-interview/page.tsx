@@ -37,6 +37,9 @@ export default function LiveInterview() {
   // console.log("interviewSessionId : ", interviewSessionId)
 
 
+  
+
+
   const generateFeedback = async () => {
     if (!messages.length) return;
     try {
@@ -114,6 +117,7 @@ export default function LiveInterview() {
       const interview = interviewData?.interviewData?.interview;
       // @ts-ignore-error
       const questions = interviewData?.interviewData?.questions;
+
       if (!interview || !questions) {
         toast('❌ Interview data not found!');
         setCallStatus(CallStatus.INACTIVE);

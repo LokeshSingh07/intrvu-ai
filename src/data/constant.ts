@@ -1,4 +1,4 @@
-export const platformName = "Ai Intrvu"
+export const platformName = "Intrvu AI"
 export const emailAddress = "codewithlokeshx@gmail.com"
 
 

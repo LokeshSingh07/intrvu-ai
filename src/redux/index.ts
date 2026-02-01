@@ -7,6 +7,7 @@ export const store = configureStore({
   reducer: {
     interview: interviewReducer,
   },
+  devTools: process.env.NODE_ENV !== "production",
 });
 
 

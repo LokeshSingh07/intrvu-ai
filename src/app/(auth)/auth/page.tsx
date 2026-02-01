@@ -11,6 +11,7 @@ import SignUp from './_components/signup';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
+import { platformName } from '@/data/constant';
 
 
 const Auth = () => {
@@ -67,7 +68,7 @@ const Auth = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome to AI Intrvu</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome to {platformName}</h1>
           <p className="text-gray-600">Your AI-powered interview preparation platform</p>
         </div>
 
