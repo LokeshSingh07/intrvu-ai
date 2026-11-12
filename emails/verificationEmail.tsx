@@ -1,14 +1,15 @@
 import {
   Html,
   Head,
+  Body,
   Font,
   Preview,
   Heading,
-  Row,
   Section,
   Text,
   Button,
   Container,
+  Hr,
 } from '@react-email/components';
 
 interface VerificationEmailProps {
@@ -16,7 +17,11 @@ interface VerificationEmailProps {
   verifyCode: string;
 }
 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+
 export default function VerificationEmail({ email, verifyCode }: VerificationEmailProps) {
+  const verifyUrl = `${baseUrl}/auth/verify/${encodeURIComponent(email)}`;
+
   return (
     <Html lang="en" dir="ltr">
       <Head>
@@ -34,40 +39,50 @@ export default function VerificationEmail({ email, verifyCode }: VerificationEma
       </Head>
       <Preview>Your verification code is: {verifyCode}</Preview>
 
-      <Section style={styles.section}>
+      <Body style={styles.body}>
         <Container style={styles.container}>
+          <Text style={styles.brand}>Intrvu</Text>
+
           <Heading as="h2" style={styles.heading}>
-            Welcome, {email}!
+            Verify your email
           </Heading>
 
           <Text style={styles.text}>
-            Thanks for joining us! Please use the code below to verify your account.
+            Hi there, thanks for joining us! Use the code below to verify
+            your account <strong>{email}</strong>.
           </Text>
 
-          <div style={styles.centeredBox}>
+          <Section style={styles.codeSection}>
             <Text style={styles.code}>{verifyCode}</Text>
+          </Section>
 
-            <Button
-              href={`https://localhost:3000/auth/verify/${email}`}
-              style={styles.button}
-            >
+          <Text style={styles.hint}>
+            This code will expire soon. Don&apos;t share it with anyone.
+          </Text>
+
+          <Section style={styles.buttonSection}>
+            <Button href={verifyUrl} style={styles.button}>
               Verify Account
             </Button>
-          </div>
+          </Section>
+
+          <Hr style={styles.hr} />
 
           <Text style={styles.footer}>
-            If you didn’t request this, you can safely ignore this email.
+            If you didn&apos;t request this, you can safely ignore this email.
           </Text>
         </Container>
-      </Section>
+      </Body>
     </Html>
   );
 }
 
 const styles = {
-  section: {
+  body: {
     backgroundColor: '#f4f4f7',
+    margin: 0,
     padding: '40px 0',
+    fontFamily: 'Roboto, Verdana, sans-serif',
   },
   container: {
     backgroundColor: '#ffffff',
@@ -75,38 +90,51 @@ const styles = {
     padding: '40px',
     maxWidth: '600px',
     margin: '0 auto',
-    fontFamily: 'Roboto, Verdana, sans-serif',
-    boxShadow: '0 0 10px rgba(0,0,0,0.05)',
+  },
+  brand: {
+    fontSize: '14px',
+    fontWeight: 'bold',
+    letterSpacing: '1px',
+    textTransform: 'uppercase' as const,
+    color: '#4f46e5',
+    margin: '0 0 24px',
   },
   heading: {
     fontSize: '24px',
-    fontWeight: '700',
-    color: '#333',
-    marginBottom: '20px',
+    fontWeight: 700,
+    color: '#333333',
+    margin: '0 0 16px',
   },
   text: {
     fontSize: '16px',
-    color: '#555',
+    color: '#555555',
     lineHeight: '1.5',
-    marginBottom: '20px',
+    margin: '0 0 24px',
   },
-  centeredBox: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: '30px',
-    gap: '20px',
+  codeSection: {
+    textAlign: 'center' as const,
+    margin: '0 0 12px',
   },
   code: {
-    fontSize: '28px',
+    display: 'inline-block',
+    fontSize: '32px',
     fontWeight: 'bold',
-    color: '#000',
+    color: '#000000',
     backgroundColor: '#f0f0f0',
-    padding: '12px 20px',
+    padding: '12px 24px',
     borderRadius: '6px',
-    letterSpacing: '2px',
+    letterSpacing: '6px',
+    margin: 0,
+  },
+  hint: {
+    fontSize: '13px',
+    color: '#888888',
     textAlign: 'center' as const,
+    margin: '0 0 28px',
+  },
+  buttonSection: {
+    textAlign: 'center' as const,
+    margin: '0 0 32px',
   },
   button: {
     backgroundColor: '#4f46e5',
@@ -114,12 +142,17 @@ const styles = {
     padding: '12px 24px',
     borderRadius: '6px',
     fontSize: '16px',
-    textDecoration: 'none',
     fontWeight: 'bold',
-    textAlign: 'center' as const,
+    textDecoration: 'none',
+    display: 'inline-block',
+  },
+  hr: {
+    borderColor: '#eeeeee',
+    margin: '0 0 20px',
   },
   footer: {
-    fontSize: '14px',
-    color: '#999',
+    fontSize: '13px',
+    color: '#999999',
+    margin: 0,
   },
 };
