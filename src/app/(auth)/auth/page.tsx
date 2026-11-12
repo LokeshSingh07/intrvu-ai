@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,7 +9,7 @@ import SignIn from './_components/signin';
 import SignUp from './_components/signup';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { platformName } from '@/data/constant';
 
 // Google's actual multi-color mark — a plain "Chrome" glyph reads as the
@@ -27,7 +27,18 @@ const Auth = () => {
     const [googleLoading, setGoogleLoading] = useState<boolean>(false);
     const [githubLoading, setGithubLoading] = useState<boolean>(false);
     const router = useRouter();
+    const { status } = useSession();
     const isSubmitting = googleLoading || githubLoading;
+
+    useEffect(() => {
+        if (status === 'authenticated') {
+            router.replace('/dashboard');
+        }
+    }, [status, router]);
+
+    if (status === 'authenticated') {
+        return null;
+    }
 
     const handleGoogleSignIn = async () => {
         try {

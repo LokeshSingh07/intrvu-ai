@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const QUESTION = "Walk me through a time you optimized a slow API.";
 const ANSWER = "Sure — we had a reporting endpoint that took 4s...";
@@ -27,6 +28,8 @@ const FEATURES = [
 
 const Hero = () => {
   const router = useRouter();
+  const { status } = useSession();
+  const isLoggedIn = status === "authenticated";
 
   // Typed-out answer line — the panel's job is to *show* a live interview,
   // so the answer should arrive the way speech-to-text would render it,
@@ -165,11 +168,11 @@ const Hero = () => {
 
             <div className="flex items-center gap-6 mb-12 fade-up" style={{ animationDelay: "240ms" }}>
               <Button
-                onClick={() => router.push("/auth")}
+                onClick={() => router.push(isLoggedIn ? "/dashboard" : "/auth")}
                 size="lg"
                 className="bg-[#12151B] hover:bg-[#1E222B] text-white px-7 py-6 text-base font-semibold rounded-lg shadow-none group transition-all duration-200 hover:shadow-[0_8px_24px_-8px_rgba(18,21,27,0.45)] hover:-translate-y-0.5 active:translate-y-0"
               >
-                Start a mock interview
+                {isLoggedIn ? "Go to Dashboard" : "Start a mock interview"}
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </div>

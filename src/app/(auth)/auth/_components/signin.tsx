@@ -153,7 +153,8 @@ const SignUp = () => {
                     {
                         isSubmitting ? (
                         <>
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin"/>Signing you in, please wait...
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
+                            <span>Signing in...</span>
                         </>
                         ) : ("Log in")
                     }
