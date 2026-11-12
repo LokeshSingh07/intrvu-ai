@@ -12,18 +12,18 @@ const SidebarProfile = () => {
   return (
     <div className="space-y-6">
       {/* Interview Goals */}
-      <Card className="border border-[#12151B]/10 rounded-xl shadow-none">
+      <Card className="border border-[#12151B]/10 dark:border-white/10 dark:bg-white/[0.04] rounded-xl shadow-none">
         <CardHeader>
-          <CardTitle className="profile-display flex items-center text-[#12151B]">
-            <Target className="h-5 w-5 mr-2 text-[#3E63DD]" strokeWidth={1.75} />
+          <CardTitle className="profile-display flex items-center text-[#12151B] dark:text-white">
+            <Target className="h-5 w-5 mr-2 text-[#3E63DD] dark:text-[#8FA8FF]" strokeWidth={1.75} />
             Interview goals
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <Label htmlFor="experience" className="profile-body text-[#12151B]">Experience level</Label>
+            <Label htmlFor="experience" className="profile-body text-[#12151B] dark:text-white">Experience level</Label>
             <Select defaultValue="mid">
-              <SelectTrigger className="profile-body rounded-lg border-[#12151B]/15 focus-visible:ring-[#3E63DD] focus-visible:ring-offset-0">
+              <SelectTrigger className="profile-body rounded-lg border-[#12151B]/15 dark:border-white/15 dark:bg-white/[0.04] dark:text-white focus-visible:ring-[#3E63DD] dark:focus-visible:ring-[#8FA8FF] focus-visible:ring-offset-0">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -36,9 +36,9 @@ const SidebarProfile = () => {
           </div>
 
           <div>
-            <Label htmlFor="targetCompany" className="profile-body text-[#12151B]">Target company size</Label>
+            <Label htmlFor="targetCompany" className="profile-body text-[#12151B] dark:text-white">Target company size</Label>
             <Select defaultValue="medium">
-              <SelectTrigger className="profile-body rounded-lg border-[#12151B]/15 focus-visible:ring-[#3E63DD] focus-visible:ring-offset-0">
+              <SelectTrigger className="profile-body rounded-lg border-[#12151B]/15 dark:border-white/15 dark:bg-white/[0.04] dark:text-white focus-visible:ring-[#3E63DD] dark:focus-visible:ring-[#8FA8FF] focus-visible:ring-offset-0">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -51,16 +51,16 @@ const SidebarProfile = () => {
           </div>
 
           <div>
-            <Label className="profile-body text-[#12151B]">Focus areas</Label>
+            <Label className="profile-body text-[#12151B] dark:text-white">Focus areas</Label>
             <div className="space-y-2 mt-2">
               {['Technical Skills', 'Behavioral Questions', 'System Design', 'Leadership'].map((area) => (
                 <div key={area} className="flex items-center space-x-2">
                   <Checkbox
                     id={area}
                     defaultChecked={area === 'Technical Skills'}
-                    className="border-[#12151B]/20 data-[state=checked]:bg-[#3E63DD] data-[state=checked]:border-[#3E63DD]"
+                    className="border-[#12151B]/20 dark:border-white/25 data-[state=checked]:bg-[#3E63DD] data-[state=checked]:border-[#3E63DD] dark:data-[state=checked]:bg-[#8FA8FF] dark:data-[state=checked]:border-[#8FA8FF]"
                   />
-                  <Label htmlFor={area} className="profile-body text-sm text-[#374151]">{area}</Label>
+                  <Label htmlFor={area} className="profile-body text-sm text-[#374151] dark:text-white/75">{area}</Label>
                 </div>
               ))}
             </div>
@@ -69,33 +69,33 @@ const SidebarProfile = () => {
       </Card>
 
       {/* Quick Stats */}
-      <Card className="border border-[#12151B]/10 rounded-xl shadow-none">
+      <Card className="border border-[#12151B]/10 dark:border-white/10 dark:bg-white/[0.04] rounded-xl shadow-none">
         <CardHeader>
-          <CardTitle className="profile-display text-[#12151B]">Profile completion</CardTitle>
+          <CardTitle className="profile-display text-[#12151B] dark:text-white">Profile completion</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <span className="profile-body text-sm text-[#374151]">Basic info</span>
-              <Badge className="profile-mono text-[11px] uppercase tracking-wide bg-[#35D0BA]/15 text-[#12151B] hover:bg-[#35D0BA]/15 border-0">
+              <span className="profile-body text-sm text-[#374151] dark:text-white/75">Basic info</span>
+              <Badge className="profile-mono text-[11px] uppercase tracking-wide bg-[#35D0BA]/15 text-[#12151B] hover:bg-[#35D0BA]/15 dark:bg-[#4ADE80]/15 dark:text-[#4ADE80] dark:hover:bg-[#4ADE80]/15 border-0">
                 Complete
               </Badge>
             </div>
             <div className="flex justify-between items-center">
-              <span className="profile-body text-sm text-[#374151]">Resume</span>
-              <Badge className="profile-mono text-[11px] uppercase tracking-wide bg-[#35D0BA]/15 text-[#12151B] hover:bg-[#35D0BA]/15 border-0">
+              <span className="profile-body text-sm text-[#374151] dark:text-white/75">Resume</span>
+              <Badge className="profile-mono text-[11px] uppercase tracking-wide bg-[#35D0BA]/15 text-[#12151B] hover:bg-[#35D0BA]/15 dark:bg-[#4ADE80]/15 dark:text-[#4ADE80] dark:hover:bg-[#4ADE80]/15 border-0">
                 Complete
               </Badge>
             </div>
             <div className="flex justify-between items-center">
-              <span className="profile-body text-sm text-[#374151]">Job preferences</span>
-              <Badge className="profile-mono text-[11px] uppercase tracking-wide bg-[#35D0BA]/15 text-[#12151B] hover:bg-[#35D0BA]/15 border-0">
+              <span className="profile-body text-sm text-[#374151] dark:text-white/75">Job preferences</span>
+              <Badge className="profile-mono text-[11px] uppercase tracking-wide bg-[#35D0BA]/15 text-[#12151B] hover:bg-[#35D0BA]/15 dark:bg-[#4ADE80]/15 dark:text-[#4ADE80] dark:hover:bg-[#4ADE80]/15 border-0">
                 Complete
               </Badge>
             </div>
             <div className="flex justify-between items-center">
-              <span className="profile-body text-sm text-[#374151]">Goals</span>
-              <Badge className="profile-mono text-[11px] uppercase tracking-wide bg-amber-500/15 text-amber-700 hover:bg-amber-500/15 border-0">
+              <span className="profile-body text-sm text-[#374151] dark:text-white/75">Goals</span>
+              <Badge className="profile-mono text-[11px] uppercase tracking-wide bg-amber-500/15 text-amber-700 dark:text-amber-400 hover:bg-amber-500/15 border-0">
                 Incomplete
               </Badge>
             </div>

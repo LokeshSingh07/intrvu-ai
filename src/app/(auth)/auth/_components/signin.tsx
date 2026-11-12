@@ -92,13 +92,13 @@ const SignUp = () => {
                     name="identifier"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="auth-mono text-[11px] tracking-wide uppercase text-[#6B7280]">Email</FormLabel>
+                            <FormLabel className="auth-mono text-[11px] tracking-wide uppercase text-[#6B7280] dark:text-white/60">Email</FormLabel>
                             <FormControl>
                                 <div className='relative'>
-                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8A8F9C]" />
+                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8A8F9C] dark:text-white/40" />
                                     <Input
                                         placeholder="you@email.com"
-                                        className='auth-body pl-10 h-11 rounded-lg border-[#12151B]/15 focus-visible:ring-[#3E63DD] focus-visible:ring-offset-0'
+                                        className='auth-body pl-10 h-11 rounded-lg border-[#12151B]/15 dark:border-white/15 dark:bg-white/[0.04] dark:text-white dark:placeholder:text-white/40 focus-visible:ring-[#3E63DD] dark:focus-visible:ring-[#8FA8FF] focus-visible:ring-offset-0'
                                         {...field}
                                     />
                                 </div>
@@ -114,20 +114,20 @@ const SignUp = () => {
                     name="password"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel className="auth-mono text-[11px] tracking-wide uppercase text-[#6B7280]">Password</FormLabel>
+                            <FormLabel className="auth-mono text-[11px] tracking-wide uppercase text-[#6B7280] dark:text-white/60">Password</FormLabel>
                             <FormControl>
                                 <div className='relative'>
-                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8A8F9C]" />
+                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8A8F9C] dark:text-white/40" />
                                     <Input
                                         placeholder="Enter your password"
                                         type={`${showPassword ? "text" : "password"}`}
-                                        className='auth-body pl-10 pr-10 h-11 rounded-lg border-[#12151B]/15 focus-visible:ring-[#3E63DD] focus-visible:ring-offset-0'
+                                        className='auth-body pl-10 pr-10 h-11 rounded-lg border-[#12151B]/15 dark:border-white/15 dark:bg-white/[0.04] dark:text-white dark:placeholder:text-white/40 focus-visible:ring-[#3E63DD] dark:focus-visible:ring-[#8FA8FF] focus-visible:ring-offset-0'
                                         {...field}
                                     />
                                     <button
                                         type="button"
                                         onClick={()=> setShowPassword((prev) => !prev)}
-                                        className='absolute right-3 top-1/2 -translate-y-1/2 text-[#8A8F9C] hover:text-[#12151B] transition-colors'
+                                        className='absolute right-3 top-1/2 -translate-y-1/2 text-[#8A8F9C] hover:text-[#12151B] dark:text-white/40 dark:hover:text-white transition-colors'
                                         aria-label={showPassword ? "Hide password" : "Show password"}
                                     >
                                         {showPassword ? (
@@ -148,7 +148,7 @@ const SignUp = () => {
                 <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="auth-body w-full h-11 bg-[#12151B] hover:bg-[#1E222B] text-white rounded-lg font-medium"
+                    className="auth-body w-full h-11 bg-[#12151B] hover:bg-[#1E222B] text-white dark:bg-[#8FA8FF] dark:hover:bg-[#7A96FF] dark:text-[#12151B] rounded-lg font-medium"
                 >
                     {
                         isSubmitting ? (

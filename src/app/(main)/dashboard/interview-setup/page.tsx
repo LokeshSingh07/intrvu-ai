@@ -20,6 +20,7 @@ import { createInterviewSession } from '@/actions/interview';
 import { CompanySize, DifficultyLevel, Duration, ExperienceLevel, InterviewMode, InterviewType, JobPosition } from '@/types/enum';
 import { useDispatch } from 'react-redux';
 import { setInterviewData } from '@/redux/slice/interviewSlice';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 
 
@@ -178,7 +179,7 @@ const InterviewSetup = () => {
 
   
   return (
-    <div className="min-h-screen bg-[#FAF8F4]">
+    <div className="min-h-screen bg-[#FAF8F4] text-[#12151B] dark:bg-[#12151B] dark:text-white transition-colors duration-200">
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap');
         .setup-display { font-family: 'Space Grotesk', sans-serif; }
@@ -187,11 +188,14 @@ const InterviewSetup = () => {
       `}</style>
 
       {/* Header */}
-      <div className="bg-white border-b border-[#12151B]/10">
-        <div className="container mx-auto px-6 py-5">
-          <div className="setup-mono text-xs tracking-[0.18em] uppercase text-[#3E63DD] mb-2">Setup</div>
-          <h1 className="setup-display text-2xl font-bold text-[#12151B]">Interview setup</h1>
-          <p className="setup-body text-[#6B7280]">Configure your practice session</p>
+      <div className="bg-white border-b border-[#12151B]/10 dark:bg-[#12151B] dark:border-white/10">
+        <div className="container mx-auto px-6 py-5 flex items-center justify-between">
+          <div>
+            <div className="setup-mono text-xs tracking-[0.18em] uppercase text-[#3E63DD] dark:text-[#8FA8FF] mb-2">Setup</div>
+            <h1 className="setup-display text-2xl font-bold text-[#12151B] dark:text-white">Interview setup</h1>
+            <p className="setup-body text-[#6B7280] dark:text-white/60">Configure your practice session</p>
+          </div>
+          <ThemeToggle />
         </div>
       </div>
 
@@ -200,10 +204,10 @@ const InterviewSetup = () => {
           {/* Main Content — flows and scrolls normally with the page */}
           <div className="lg:col-span-2 space-y-8">
               {/* Interview Type */}
-              <Card className="border border-[#12151B]/10 rounded-xl shadow-none">
+              <Card className="border border-[#12151B]/10 dark:border-white/10 dark:bg-white/[0.04] rounded-xl shadow-none">
                 <CardHeader>
-                  <CardTitle className="setup-display text-[#12151B]">Interview type</CardTitle>
-                  <CardDescription className="setup-body text-[#6B7280]">Choose the type of interview you want to practice</CardDescription>
+                  <CardTitle className="setup-display text-[#12151B] dark:text-white">Interview type</CardTitle>
+                  <CardDescription className="setup-body text-[#6B7280] dark:text-white/60">Choose the type of interview you want to practice</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -212,18 +216,18 @@ const InterviewSetup = () => {
                         key={type.id}
                         className={`p-4 border rounded-lg cursor-pointer transition-colors ${
                           interviewType === type.id
-                            ? 'border-[#3E63DD] bg-[#3E63DD]/5'
-                            : 'border-[#12151B]/10 hover:border-[#12151B]/25'
+                            ? 'border-[#3E63DD] bg-[#3E63DD]/5 dark:border-[#8FA8FF] dark:bg-[#8FA8FF]/10'
+                            : 'border-[#12151B]/10 hover:border-[#12151B]/25 dark:border-white/10 dark:hover:border-white/25'
                         }`}
                         onClick={() => setValue("interviewType", type.id as any)}
                       >
                         <div className={`h-9 w-9 rounded-lg flex items-center justify-center mb-3 ${
-                          interviewType === type.id ? 'bg-[#3E63DD]' : 'bg-[#12151B]/5'
+                          interviewType === type.id ? 'bg-[#3E63DD] dark:bg-[#8FA8FF]' : 'bg-[#12151B]/5 dark:bg-white/10'
                         }`}>
-                          <type.icon className={`h-4 w-4 ${interviewType === type.id ? 'text-white' : 'text-[#12151B]'}`} strokeWidth={1.75} />
+                          <type.icon className={`h-4 w-4 ${interviewType === type.id ? 'text-white dark:text-[#12151B]' : 'text-[#12151B] dark:text-white'}`} strokeWidth={1.75} />
                         </div>
-                        <h3 className="setup-display font-semibold mb-1 text-[#12151B]">{type.title}</h3>
-                        <p className="setup-body text-sm text-[#6B7280]">{type.description}</p>
+                        <h3 className="setup-display font-semibold mb-1 text-[#12151B] dark:text-white">{type.title}</h3>
+                        <p className="setup-body text-sm text-[#6B7280] dark:text-white/60">{type.description}</p>
                       </div>
                     ))}
                   </div>
@@ -232,10 +236,10 @@ const InterviewSetup = () => {
 
               {/* Difficulty & Duration */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card className="border border-[#12151B]/10 rounded-xl shadow-none">
+                <Card className="border border-[#12151B]/10 dark:border-white/10 dark:bg-white/[0.04] rounded-xl shadow-none">
                   <CardHeader>
-                    <CardTitle className="setup-display text-[#12151B]">Difficulty level</CardTitle>
-                    <CardDescription className="setup-body text-[#6B7280]">Select the appropriate challenge level</CardDescription>
+                    <CardTitle className="setup-display text-[#12151B] dark:text-white">Difficulty level</CardTitle>
+                    <CardDescription className="setup-body text-[#6B7280] dark:text-white/60">Select the appropriate challenge level</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <RadioGroup value={difficulty} onValueChange={(val) => setValue("difficultyLevel", val as any)}>
@@ -244,18 +248,18 @@ const InterviewSetup = () => {
                           <RadioGroupItem value="easy" id="easy" />
                           <Label htmlFor="easy" className="flex-1 cursor-pointer">
                             <div className="flex items-center justify-between gap-2">
-                              <Badge className="setup-mono text-xs bg-[#F1EFEA] text-[#6B7280] hover:bg-[#F1EFEA]">Beginner</Badge>
+                              <Badge className="setup-mono text-xs bg-[#F1EFEA] text-[#6B7280] hover:bg-[#F1EFEA] dark:bg-white/10 dark:text-white/70 dark:hover:bg-white/10">Beginner</Badge>
                             </div>
-                            <p className="setup-body text-sm text-[#6B7280]">Basic questions for entry-level roles</p>
+                            <p className="setup-body text-sm text-[#6B7280] dark:text-white/60">Basic questions for entry-level roles</p>
                           </Label>
                         </div>
                         <div className="flex items-center space-x-2">
                           <RadioGroupItem value="medium" id="medium" />
                           <Label htmlFor="medium" className="flex-1 cursor-pointer">
                             <div className="flex items-center justify-between gap-2">
-                              <Badge className="setup-mono text-xs bg-[#3E63DD] text-white hover:bg-[#3E63DD]">Medium</Badge>
+                              <Badge className="setup-mono text-xs bg-[#3E63DD] text-white hover:bg-[#3E63DD] dark:bg-[#8FA8FF] dark:text-[#12151B] dark:hover:bg-[#8FA8FF]">Medium</Badge>
                             </div>
-                            <p className="setup-body text-sm text-[#6B7280]">Standard questions for mid-level roles</p>
+                            <p className="setup-body text-sm text-[#6B7280] dark:text-white/60">Standard questions for mid-level roles</p>
                           </Label>
                         </div>
                         <div className="flex items-center space-x-2">
@@ -264,7 +268,7 @@ const InterviewSetup = () => {
                             <div className="flex items-center justify-between gap-2">
                               <Badge variant="destructive" className="setup-mono text-xs">Hard</Badge>
                             </div>
-                            <p className="setup-body text-sm text-[#6B7280]">Complex questions for senior positions</p>
+                            <p className="setup-body text-sm text-[#6B7280] dark:text-white/60">Complex questions for senior positions</p>
                           </Label>
                         </div>
                       </div>
@@ -272,10 +276,10 @@ const InterviewSetup = () => {
                   </CardContent>
                 </Card>
 
-                <Card className="border border-[#12151B]/10 rounded-xl shadow-none">
+                <Card className="border border-[#12151B]/10 dark:border-white/10 dark:bg-white/[0.04] rounded-xl shadow-none">
                   <CardHeader>
-                    <CardTitle className="setup-display text-[#12151B]">Duration</CardTitle>
-                    <CardDescription className="setup-body text-[#6B7280]">How long do you want to practice?</CardDescription>
+                    <CardTitle className="setup-display text-[#12151B] dark:text-white">Duration</CardTitle>
+                    <CardDescription className="setup-body text-[#6B7280] dark:text-white/60">How long do you want to practice?</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -289,11 +293,11 @@ const InterviewSetup = () => {
                           className="w-full"
                         />
                       </div>
-                      <div className="setup-body flex items-center justify-between text-sm text-[#6B7280]">
+                      <div className="setup-body flex items-center justify-between text-sm text-[#6B7280] dark:text-white/60">
                         <span>10 min</span>
                         <div className="flex items-center space-x-1">
-                          <Clock className="h-4 w-4 text-[#3E63DD]" />
-                          <span className="setup-display font-semibold text-lg text-[#12151B]">{duration} minutes</span>
+                          <Clock className="h-4 w-4 text-[#3E63DD] dark:text-[#8FA8FF]" />
+                          <span className="setup-display font-semibold text-lg text-[#12151B] dark:text-white">{duration} minutes</span>
                         </div>
                         <span>60 min</span>
                       </div>
@@ -305,8 +309,8 @@ const InterviewSetup = () => {
                             onClick={() => setValue("duration", time)}
                             className={`setup-body rounded-lg ${
                               duration === time
-                                ? 'bg-[#12151B] hover:bg-[#1E222B] text-white'
-                                : 'bg-white border border-[#12151B]/15 text-[#12151B] hover:bg-[#FAF8F4]'
+                                ? 'bg-[#12151B] hover:bg-[#1E222B] text-white dark:bg-[#8FA8FF] dark:hover:bg-[#7A96FF] dark:text-[#12151B]'
+                                : 'bg-white border border-[#12151B]/15 text-[#12151B] hover:bg-[#FAF8F4] dark:bg-white/[0.04] dark:border-white/15 dark:text-white dark:hover:bg-white/[0.08]'
                             }`}
                           >
                             {time}m
@@ -319,10 +323,10 @@ const InterviewSetup = () => {
               </div>
 
               {/* Interview Mode */}
-              <Card className="border border-[#12151B]/10 rounded-xl shadow-none">
+              <Card className="border border-[#12151B]/10 dark:border-white/10 dark:bg-white/[0.04] rounded-xl shadow-none">
                 <CardHeader>
-                  <CardTitle className="setup-display text-[#12151B]">Interview mode</CardTitle>
-                  <CardDescription className="setup-body text-[#6B7280]">Choose how you want to interact during the interview</CardDescription>
+                  <CardTitle className="setup-display text-[#12151B] dark:text-white">Interview mode</CardTitle>
+                  <CardDescription className="setup-body text-[#6B7280] dark:text-white/60">Choose how you want to interact during the interview</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <RadioGroup value={mode} 
@@ -338,14 +342,14 @@ const InterviewSetup = () => {
                           <Label htmlFor={modeOption.id} className="flex-1 cursor-pointer">
                             <div className={`p-4 border rounded-lg transition-colors ${
                               mode === modeOption.id
-                                ? 'border-[#3E63DD] bg-[#3E63DD]/5'
-                                : 'border-[#12151B]/10 hover:bg-[#FAF8F4]'
+                                ? 'border-[#3E63DD] bg-[#3E63DD]/5 dark:border-[#8FA8FF] dark:bg-[#8FA8FF]/10'
+                                : 'border-[#12151B]/10 hover:bg-[#FAF8F4] dark:border-white/10 dark:hover:bg-white/[0.04]'
                             }`}>
                               <div className="flex items-center space-x-3 mb-2">
-                                <modeOption.icon className="h-4 w-4 text-[#3E63DD]" strokeWidth={1.75} />
-                                <span className="setup-display font-medium text-[#12151B]">{modeOption.title}</span>
+                                <modeOption.icon className="h-4 w-4 text-[#3E63DD] dark:text-[#8FA8FF]" strokeWidth={1.75} />
+                                <span className="setup-display font-medium text-[#12151B] dark:text-white">{modeOption.title}</span>
                               </div>
-                              <p className="setup-body text-sm text-[#6B7280]">{modeOption.description}</p>
+                              <p className="setup-body text-sm text-[#6B7280] dark:text-white/60">{modeOption.description}</p>
                             </div>
                           </Label>
                         </div>
@@ -361,14 +365,14 @@ const InterviewSetup = () => {
               </Card>
 
               {/* Custom Settings */}
-              <Card className="border border-[#12151B]/10 rounded-xl shadow-none">
+              <Card className="border border-[#12151B]/10 dark:border-white/10 dark:bg-white/[0.04] rounded-xl shadow-none">
                 <CardHeader>
-                  <CardTitle className="setup-display text-[#12151B]">Customization</CardTitle>
-                  <CardDescription className="setup-body text-[#6B7280]">Optional: Add specific focus areas or job description</CardDescription>
+                  <CardTitle className="setup-display text-[#12151B] dark:text-white">Customization</CardTitle>
+                  <CardDescription className="setup-body text-[#6B7280] dark:text-white/60">Optional: Add specific focus areas or job description</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-5">
                   <div>
-                    <Label htmlFor="job-role" className="setup-mono text-[11px] tracking-wide uppercase text-[#6B7280]">Target job role</Label>
+                    <Label htmlFor="job-role" className="setup-mono text-[11px] tracking-wide uppercase text-[#6B7280] dark:text-white/60">Target job role</Label>
                     <Select 
                       value={jobPosition}
                       onValueChange={(val)=> {
@@ -377,7 +381,7 @@ const InterviewSetup = () => {
                         clearErrors("jobDescription");
                       }}
                     >
-                      <SelectTrigger className="setup-body mt-2 rounded-lg border-[#12151B]/15 focus:ring-[#3E63DD]">
+                      <SelectTrigger className="setup-body mt-2 rounded-lg border-[#12151B]/15 dark:border-white/15 dark:bg-white/[0.04] dark:text-white focus:ring-[#3E63DD] dark:focus:ring-[#8FA8FF]">
                         <SelectValue placeholder="Select a job role" />
                       </SelectTrigger>
                       <SelectContent>
@@ -393,11 +397,11 @@ const InterviewSetup = () => {
                   </div>
 
                   <div>
-                    <Label htmlFor="job-description" className="setup-mono text-[11px] tracking-wide uppercase text-[#6B7280]">Job description</Label>
+                    <Label htmlFor="job-description" className="setup-mono text-[11px] tracking-wide uppercase text-[#6B7280] dark:text-white/60">Job description</Label>
                     <Textarea
                       id="job-description"
                       placeholder="Paste the job description here to get tailored questions..."
-                      className="setup-body mt-2 min-h-[100px] rounded-lg border-[#12151B]/15 focus-visible:ring-[#3E63DD]"
+                      className="setup-body mt-2 min-h-[100px] rounded-lg border-[#12151B]/15 dark:border-white/15 dark:bg-white/[0.04] dark:text-white focus-visible:ring-[#3E63DD] dark:focus-visible:ring-[#8FA8FF]"
                       {...register("jobDescription", {
                         onChange: () => clearErrors("jobDescription")
                       })}
@@ -406,7 +410,7 @@ const InterviewSetup = () => {
                   </div>
 
                   <div>
-                      <Label htmlFor="focus-areas" className="setup-mono text-[11px] tracking-wide uppercase text-[#6B7280]">Tech stack</Label>
+                      <Label htmlFor="focus-areas" className="setup-mono text-[11px] tracking-wide uppercase text-[#6B7280] dark:text-white/60">Tech stack</Label>
                       <div className="flex flex-wrap gap-2 mt-2">
                         {techOptions?.map((tech) => {
                           const selected = watch("techStack")?.includes(tech);
@@ -415,8 +419,8 @@ const InterviewSetup = () => {
                               key={tech}
                               className={`setup-body cursor-pointer border ${
                                 selected
-                                  ? 'bg-[#12151B] text-white border-[#12151B] hover:bg-[#1E222B]'
-                                  : 'bg-white text-[#12151B] border-[#12151B]/15 hover:bg-[#FAF8F4]'
+                                  ? 'bg-[#12151B] text-white border-[#12151B] hover:bg-[#1E222B] dark:bg-[#8FA8FF] dark:text-[#12151B] dark:border-[#8FA8FF] dark:hover:bg-[#7A96FF]'
+                                  : 'bg-white text-[#12151B] border-[#12151B]/15 hover:bg-[#FAF8F4] dark:bg-white/[0.04] dark:text-white/80 dark:border-white/15 dark:hover:bg-white/[0.08]'
                               }`}
                               onClick={() => {
                                 const currentStack = watch("techStack") || [];
@@ -447,43 +451,43 @@ const InterviewSetup = () => {
           {/* Sidebar — scrolls with the page, sticks once it reaches the top */}
           <div className="space-y-6 lg:sticky lg:top-8 lg:self-start">
               {/* Summary */}
-              <Card className="border border-[#12151B]/10 rounded-xl shadow-none">
+              <Card className="border border-[#12151B]/10 dark:border-white/10 dark:bg-white/[0.04] rounded-xl shadow-none">
                 <CardHeader>
-                  <CardTitle className="setup-display text-[#12151B]">Interview summary</CardTitle>
+                  <CardTitle className="setup-display text-[#12151B] dark:text-white">Interview summary</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="setup-mono text-xs uppercase tracking-wide text-[#8A8F9C]">Type</span>
-                    <span className="setup-body text-sm font-medium capitalize text-[#12151B]">{interviewType}</span>
+                    <span className="setup-mono text-xs uppercase tracking-wide text-[#8A8F9C] dark:text-white/40">Type</span>
+                    <span className="setup-body text-sm font-medium capitalize text-[#12151B] dark:text-white">{interviewType}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="setup-mono text-xs uppercase tracking-wide text-[#8A8F9C]">Difficulty</span>
+                    <span className="setup-mono text-xs uppercase tracking-wide text-[#8A8F9C] dark:text-white/40">Difficulty</span>
                     <Badge className={`setup-mono text-xs ${
-                      difficulty === 'easy' ? 'bg-[#F1EFEA] text-[#6B7280] hover:bg-[#F1EFEA]' :
-                      difficulty === 'medium' ? 'bg-[#3E63DD] text-white hover:bg-[#3E63DD]' :
+                      difficulty === 'easy' ? 'bg-[#F1EFEA] text-[#6B7280] hover:bg-[#F1EFEA] dark:bg-white/10 dark:text-white/70 dark:hover:bg-white/10' :
+                      difficulty === 'medium' ? 'bg-[#3E63DD] text-white hover:bg-[#3E63DD] dark:bg-[#8FA8FF] dark:text-[#12151B] dark:hover:bg-[#8FA8FF]' :
                       'bg-red-500 text-white hover:bg-red-500'
                     }`}>
                       {difficulty}
                     </Badge>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="setup-mono text-xs uppercase tracking-wide text-[#8A8F9C]">Duration</span>
-                    <span className="setup-body text-sm font-medium text-[#12151B]">{duration} minutes</span>
+                    <span className="setup-mono text-xs uppercase tracking-wide text-[#8A8F9C] dark:text-white/40">Duration</span>
+                    <span className="setup-body text-sm font-medium text-[#12151B] dark:text-white">{duration} minutes</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="setup-mono text-xs uppercase tracking-wide text-[#8A8F9C]">Mode</span>
-                    <span className="setup-body text-sm font-medium capitalize text-[#12151B]">{mode}</span>
+                    <span className="setup-mono text-xs uppercase tracking-wide text-[#8A8F9C] dark:text-white/40">Mode</span>
+                    <span className="setup-body text-sm font-medium capitalize text-[#12151B] dark:text-white">{mode}</span>
                   </div>
                 </CardContent>
               </Card>
 
               {/* Tips */}
-              <Card className="border border-[#12151B]/10 rounded-xl shadow-none">
+              <Card className="border border-[#12151B]/10 dark:border-white/10 dark:bg-white/[0.04] rounded-xl shadow-none">
                 <CardHeader>
-                  <CardTitle className="setup-display text-[#12151B]">Quick tips</CardTitle>
+                  <CardTitle className="setup-display text-[#12151B] dark:text-white">Quick tips</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ul className="setup-body space-y-2 text-sm text-[#6B7280]">
+                  <ul className="setup-body space-y-2 text-sm text-[#6B7280] dark:text-white/60">
                     <li>— Find a quiet environment</li>
                     <li>— Test your microphone</li>
                     <li>— Have a notepad ready</li>
@@ -494,7 +498,7 @@ const InterviewSetup = () => {
               </Card>
 
               {/* Start Button */}
-              <Button className="setup-body w-full bg-[#35D0BA] hover:bg-[#2BB8A4] text-[#12151B] h-12 rounded-lg font-semibold"
+              <Button className="setup-body w-full bg-[#35D0BA] hover:bg-[#2BB8A4] dark:bg-[#4ADE80] dark:hover:bg-[#3BC86E] text-[#12151B] h-12 rounded-lg font-semibold"
                 onClick={handleSubmit(onSubmit)}
                 disabled={isSubmitting}
               >
@@ -511,7 +515,7 @@ const InterviewSetup = () => {
                 )}
               </Button>
               
-              <p className="setup-body text-xs text-[#8A8F9C] text-center">
+              <p className="setup-body text-xs text-[#8A8F9C] dark:text-white/40 text-center">
                 Your interview will be saved automatically. You can pause or end at any time.
               </p>
             </div>

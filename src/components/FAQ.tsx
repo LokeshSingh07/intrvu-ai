@@ -32,7 +32,7 @@ const FAQ = () => {
   ];
 
   return (
-    <section className="py-24 bg-[#FAF8F4]">
+    <section className="py-24 bg-[#FAF8F4] text-[#12151B] dark:bg-[#12151B] dark:text-white border-t border-[#12151B]/10 dark:border-white/10 transition-colors duration-200">
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap');
         .faq-display { font-family: 'Space Grotesk', sans-serif; }
@@ -42,18 +42,18 @@ const FAQ = () => {
 
       <div className="container mx-auto px-6">
         <div className="max-w-3xl mx-auto mb-16">
-          <div className="faq-mono text-xs tracking-[0.18em] uppercase text-[#3E63DD] mb-4">
+          <div className="faq-mono text-xs tracking-[0.18em] uppercase text-[#3E63DD] dark:text-[#8FA8FF] mb-4">
             FAQ
           </div>
-          <h2 className="faq-display text-4xl md:text-5xl font-bold text-[#12151B] mb-6 leading-tight">
+          <h2 className="faq-display text-4xl md:text-5xl font-bold text-[#12151B] dark:text-white mb-6 leading-tight">
             Questions, answered
           </h2>
-          <p className="faq-body text-lg text-[#6B7280] leading-relaxed">
+          <p className="faq-body text-lg text-[#6B7280] dark:text-white/60 leading-relaxed">
             Everything you need to know about the platform. Can&apos;t find what
             you&apos;re looking for?{" "}
             <a
               href={`mailto:${emailAddress}`}
-              className="text-[#3E63DD] hover:underline"
+              className="text-[#3E63DD] dark:text-[#8FA8FF] hover:underline"
             >
               Reach out to our support team.
             </a>
@@ -66,19 +66,19 @@ const FAQ = () => {
               <AccordionItem
                 key={index}
                 value={`item-${index}`}
-                className="border-b border-[#12151B]/10 first:border-t"
+                className="border-b border-[#12151B]/10 dark:border-white/10 first:border-t"
               >
-                <AccordionTrigger className="group text-left py-6 hover:no-underline [&>svg]:text-[#8A8F9C]">
+                <AccordionTrigger className="group text-left py-6 hover:no-underline [&>svg]:text-[#8A8F9C] dark:[&>svg]:text-white/40">
                   <span className="flex items-baseline gap-4">
-                    <span className="faq-mono text-xs text-[#8A8F9C] shrink-0 pt-1">
+                    <span className="faq-mono text-xs text-[#8A8F9C] dark:text-white/40 shrink-0 pt-1">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span className="faq-display text-lg font-semibold text-[#12151B] group-hover:text-[#3E63DD] transition-colors">
+                    <span className="faq-display text-lg font-semibold text-[#12151B] group-hover:text-[#3E63DD] dark:text-white dark:group-hover:text-[#8FA8FF] transition-colors">
                       {faq.question}
                     </span>
                   </span>
                 </AccordionTrigger>
-                <AccordionContent className="faq-body text-[#6B7280] pb-6 pl-9 leading-relaxed">
+                <AccordionContent className="faq-body text-[#6B7280] dark:text-white/60 pb-6 pl-9 leading-relaxed">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>

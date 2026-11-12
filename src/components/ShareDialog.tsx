@@ -84,7 +84,7 @@ const ShareDialog: React.FC<ShareDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg rounded-2xl border border-[#12151B]/10 p-0 overflow-hidden">
+      <DialogContent className="sm:max-w-lg rounded-2xl border border-[#12151B]/10 dark:border-white/10 dark:bg-[#181C24] dark:text-white p-0 overflow-hidden">
         <style jsx global>{`
           @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap');
           .share-display { font-family: 'Space Grotesk', sans-serif; }
@@ -93,11 +93,11 @@ const ShareDialog: React.FC<ShareDialogProps> = ({
         `}</style>
 
         <DialogHeader className="px-6 pt-6">
-          <DialogTitle className="share-display flex items-center gap-2 text-[#12151B] text-lg font-semibold">
-            <Link2 className="w-4 h-4 text-[#3E63DD]" />
+          <DialogTitle className="share-display flex items-center gap-2 text-[#12151B] dark:text-white text-lg font-semibold">
+            <Link2 className="w-4 h-4 text-[#3E63DD] dark:text-[#8FA8FF]" />
             Share report
           </DialogTitle>
-          <DialogDescription className="share-body text-[#6B7280]">
+          <DialogDescription className="share-body text-[#6B7280] dark:text-white/60">
             Share your interview performance with recruiters, mentors, or friends.
           </DialogDescription>
         </DialogHeader>
@@ -105,7 +105,7 @@ const ShareDialog: React.FC<ShareDialogProps> = ({
         <div className="space-y-6 px-6 pb-6 pt-2">
           {/* Shareable Link */}
           <div className="space-y-2">
-            <Label htmlFor="share-link" className="share-mono text-[11px] tracking-wide uppercase text-[#6B7280]">
+            <Label htmlFor="share-link" className="share-mono text-[11px] tracking-wide uppercase text-[#6B7280] dark:text-white/60">
               Direct link
             </Label>
             <div className="flex gap-2">
@@ -113,60 +113,60 @@ const ShareDialog: React.FC<ShareDialogProps> = ({
                 id="share-link" 
                 value={shareUrl} 
                 readOnly 
-                className="share-mono flex-1 text-sm h-10 rounded-lg border-[#12151B]/15 bg-[#FAF8F4] text-[#374151] focus-visible:ring-[#3E63DD] focus-visible:ring-offset-0"
+                className="share-mono flex-1 text-sm h-10 rounded-lg border-[#12151B]/15 bg-[#FAF8F4] text-[#374151] dark:border-white/15 dark:bg-white/[0.04] dark:text-white/80 focus-visible:ring-[#3E63DD] dark:focus-visible:ring-[#8FA8FF] focus-visible:ring-offset-0"
               />
               <Button
                 onClick={copyToClipboard}
                 size="icon"
                 variant="outline"
-                className="h-10 w-10 shrink-0 rounded-lg border-[#12151B]/15"
+                className="h-10 w-10 shrink-0 rounded-lg border-[#12151B]/15 dark:border-white/15 dark:bg-white/[0.04] dark:hover:bg-white/[0.08]"
               >
-                {copied ? <Check className="w-4 h-4 text-[#35D0BA]" /> : <Copy className="w-4 h-4 text-[#6B7280]" />}
+                {copied ? <Check className="w-4 h-4 text-[#35D0BA] dark:text-[#4ADE80]" /> : <Copy className="w-4 h-4 text-[#6B7280] dark:text-white/60" />}
               </Button>
             </div>
           </div>
 
           {/* Social Sharing */}
           <div className="space-y-3">
-            <Label className="share-mono text-[11px] tracking-wide uppercase text-[#6B7280]">Share via</Label>
+            <Label className="share-mono text-[11px] tracking-wide uppercase text-[#6B7280] dark:text-white/60">Share via</Label>
             <div className="grid grid-cols-2 gap-3">
               <Button
                 variant="outline"
                 onClick={shareViaEmail}
-                className="share-body justify-start border-[#12151B]/15 text-[#12151B] hover:bg-[#FAF8F4] rounded-lg"
+                className="share-body justify-start border-[#12151B]/15 text-[#12151B] hover:bg-[#FAF8F4] dark:border-white/15 dark:bg-white/[0.04] dark:text-white dark:hover:bg-white/[0.08] rounded-lg"
               >
-                <Mail className="w-4 h-4 mr-2 text-[#6B7280]" />
+                <Mail className="w-4 h-4 mr-2 text-[#6B7280] dark:text-white/60" />
                 Email
               </Button>
               <Button
                 variant="outline"
                 onClick={shareToLinkedIn}
-                className="share-body justify-start border-[#12151B]/15 text-[#12151B] hover:bg-[#FAF8F4] rounded-lg"
+                className="share-body justify-start border-[#12151B]/15 text-[#12151B] hover:bg-[#FAF8F4] dark:border-white/15 dark:bg-white/[0.04] dark:text-white dark:hover:bg-white/[0.08] rounded-lg"
               >
-                <Linkedin className="w-4 h-4 mr-2 text-[#6B7280]" />
+                <Linkedin className="w-4 h-4 mr-2 text-[#6B7280] dark:text-white/60" />
                 LinkedIn
               </Button>
               <Button
                 variant="outline"
                 onClick={shareToTwitter}
-                className="share-body justify-start border-[#12151B]/15 text-[#12151B] hover:bg-[#FAF8F4] rounded-lg"
+                className="share-body justify-start border-[#12151B]/15 text-[#12151B] hover:bg-[#FAF8F4] dark:border-white/15 dark:bg-white/[0.04] dark:text-white dark:hover:bg-white/[0.08] rounded-lg"
               >
-                <Twitter className="w-4 h-4 mr-2 text-[#6B7280]" />
+                <Twitter className="w-4 h-4 mr-2 text-[#6B7280] dark:text-white/60" />
                 Twitter
               </Button>
               <Button
                 variant="outline"
                 onClick={downloadPdf}
                 disabled={!pdfBlob}
-                className="share-body justify-start border-[#12151B]/15 text-[#12151B] hover:bg-[#FAF8F4] rounded-lg disabled:opacity-40"
+                className="share-body justify-start border-[#12151B]/15 text-[#12151B] hover:bg-[#FAF8F4] dark:border-white/15 dark:bg-white/[0.04] dark:text-white dark:hover:bg-white/[0.08] rounded-lg disabled:opacity-40"
               >
-                <Download className="w-4 h-4 mr-2 text-[#6B7280]" />
+                <Download className="w-4 h-4 mr-2 text-[#6B7280] dark:text-white/60" />
                 Download PDF
               </Button>
             </div>
           </div>
 
-          <div className="share-mono text-[11px] text-[#8A8F9C] text-center tracking-wide">
+          <div className="share-mono text-[11px] text-[#8A8F9C] dark:text-white/40 text-center tracking-wide">
             Anyone with the link can view your report
           </div>
         </div>

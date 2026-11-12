@@ -9,7 +9,7 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#12151B] text-white">
+    <footer className="bg-[#12151B] text-white border-t border-white/10">
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap');
         .foot-display { font-family: 'Space Grotesk', sans-serif; }
@@ -81,7 +81,7 @@ const Footer = () => {
         <div className="text-center mb-8">
           <h3 className="foot-display text-2xl font-bold mb-4">Ready to transform your hiring process?</h3>
           <p className="foot-body text-[#9CA1AD] mb-6">Join the teams already using AI to build better teams.</p>
-          <Button className="foot-body bg-[#35D0BA] hover:bg-[#2BB8A4] text-[#12151B] px-8 py-3 rounded-lg font-semibold">
+          <Button className="foot-body bg-[#8FA8FF] hover:bg-[#7A96FF] text-[#12151B] px-8 py-3 rounded-lg font-semibold">
             Start your free trial
           </Button>
         </div>

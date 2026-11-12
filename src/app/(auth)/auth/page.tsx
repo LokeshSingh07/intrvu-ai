@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { platformName } from '@/data/constant';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 // Google's actual multi-color mark — a plain "Chrome" glyph reads as the
 // wrong product, and a monochrome G loses the one detail people scan for.
@@ -84,7 +85,7 @@ const Auth = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#FAF8F4] flex">
+        <div className="min-h-screen bg-[#FAF8F4] text-[#12151B] dark:bg-[#12151B] dark:text-white flex transition-colors duration-200">
             <style jsx global>{`
                 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap');
                 .auth-display { font-family: 'Space Grotesk', sans-serif; }
@@ -93,7 +94,7 @@ const Auth = () => {
             `}</style>
 
             {/* LEFT — brand / product panel (hidden on small screens) */}
-            <div className="hidden lg:flex lg:w-[46%] xl:w-[42%] bg-[#12151B] text-white flex-col justify-between p-12 relative overflow-hidden">
+            <div className="hidden lg:flex lg:w-[46%] xl:w-[42%] bg-[#12151B] text-white flex-col justify-between p-12 relative overflow-hidden lg:border-r lg:border-white/10">
                 {/* faint grid texture */}
                 <div
                     className="absolute inset-0 opacity-[0.06] pointer-events-none"
@@ -164,33 +165,36 @@ const Auth = () => {
             </div>
 
             {/* RIGHT — auth form */}
-            <div className="flex-1 flex items-center justify-center p-6 sm:p-10">
+            <div className="flex-1 flex items-center justify-center p-6 sm:p-10 relative">
+                <div className="absolute top-5 right-5">
+                    <ThemeToggle />
+                </div>
                 <div className="w-full max-w-sm">
                     {/* mobile-only header, since the brand panel is hidden below lg */}
                     <div className="text-center mb-8 lg:hidden">
-                        <div className="auth-mono text-xs tracking-[0.18em] uppercase text-[#3E63DD] mb-3">
+                        <div className="auth-mono text-xs tracking-[0.18em] uppercase text-[#3E63DD] dark:text-[#8FA8FF] mb-3">
                             Welcome
                         </div>
-                        <h1 className="auth-display text-3xl font-bold text-[#12151B] mb-2">{platformName}</h1>
-                        <p className="auth-body text-[#6B7280]">Your AI-powered interview preparation platform</p>
+                        <h1 className="auth-display text-3xl font-bold text-[#12151B] dark:text-white mb-2">{platformName}</h1>
+                        <p className="auth-body text-[#6B7280] dark:text-white/60">Your AI-powered interview preparation platform</p>
                     </div>
 
                     <div className="mb-8 hidden lg:block">
-                        <h2 className="auth-display text-2xl font-semibold text-[#12151B] mb-1.5">Get started</h2>
-                        <p className="auth-body text-[#6B7280] text-sm">Sign in to your account or create a new one</p>
+                        <h2 className="auth-display text-2xl font-semibold text-[#12151B] dark:text-white mb-1.5">Get started</h2>
+                        <p className="auth-body text-[#6B7280] dark:text-white/60 text-sm">Sign in to your account or create a new one</p>
                     </div>
 
                     <Tabs defaultValue="signin" className="w-full">
-                        <TabsList className="grid w-full grid-cols-2 bg-[#F1EFEA] rounded-lg">
+                        <TabsList className="grid w-full grid-cols-2 bg-[#F1EFEA] dark:bg-white/[0.06] rounded-lg">
                             <TabsTrigger
                                 value="signin"
-                                className="auth-mono text-xs tracking-wide uppercase data-[state=active]:bg-[#12151B] data-[state=active]:text-white rounded-md"
+                                className="auth-mono text-xs tracking-wide uppercase data-[state=active]:bg-[#12151B] data-[state=active]:text-white dark:text-white/60 dark:data-[state=active]:bg-[#8FA8FF] dark:data-[state=active]:text-[#12151B] rounded-md"
                             >
                                 Sign in
                             </TabsTrigger>
                             <TabsTrigger
                                 value="signup"
-                                className="auth-mono text-xs tracking-wide uppercase data-[state=active]:bg-[#12151B] data-[state=active]:text-white rounded-md"
+                                className="auth-mono text-xs tracking-wide uppercase data-[state=active]:bg-[#12151B] data-[state=active]:text-white dark:text-white/60 dark:data-[state=active]:bg-[#8FA8FF] dark:data-[state=active]:text-[#12151B] rounded-md"
                             >
                                 Sign up
                             </TabsTrigger>
@@ -208,14 +212,14 @@ const Auth = () => {
                     {/* GOOGLE & GITHUB SIGNIN */}
                     <div className="mt-6">
                         <div className="flex items-center gap-3 my-4">
-                            <Separator className="flex-1 bg-[#12151B]/10" />
-                            <span className="auth-mono text-[10px] tracking-wide uppercase text-[#8A8F9C]">or</span>
-                            <Separator className="flex-1 bg-[#12151B]/10" />
+                            <Separator className="flex-1 bg-[#12151B]/10 dark:bg-white/10" />
+                            <span className="auth-mono text-[10px] tracking-wide uppercase text-[#8A8F9C] dark:text-white/40">or</span>
+                            <Separator className="flex-1 bg-[#12151B]/10 dark:bg-white/10" />
                         </div>
                         <div className="space-y-2.5">
                             <Button
                                 variant="outline"
-                                className="auth-body w-full h-11 border-[#12151B]/15 text-[#12151B] bg-white hover:bg-[#F1EFEA] hover:border-[#12151B]/25 rounded-lg font-normal transition-colors disabled:opacity-60"
+                                className="auth-body w-full h-11 border-[#12151B]/15 text-[#12151B] bg-white hover:bg-[#F1EFEA] hover:border-[#12151B]/25 dark:border-white/15 dark:text-white dark:bg-white/[0.04] dark:hover:bg-white/[0.08] dark:hover:border-white/25 rounded-lg font-normal transition-colors disabled:opacity-60"
                                 type="button"
                                 disabled={isSubmitting}
                                 onClick={handleGoogleSignIn}
@@ -230,7 +234,7 @@ const Auth = () => {
 
                             <Button
                                 variant="outline"
-                                className="auth-body w-full h-11 border-[#12151B]/15 text-[#12151B] bg-white hover:bg-[#12151B] hover:text-white hover:border-[#12151B] rounded-lg font-normal transition-colors disabled:opacity-60"
+                                className="auth-body w-full h-11 border-[#12151B]/15 text-[#12151B] bg-white hover:bg-[#12151B] hover:text-white hover:border-[#12151B] dark:border-white/15 dark:text-white dark:bg-white/[0.04] dark:hover:bg-white dark:hover:text-[#12151B] dark:hover:border-white rounded-lg font-normal transition-colors disabled:opacity-60"
                                 type="button"
                                 disabled={isSubmitting}
                                 onClick={handleGitHubSignIn}
@@ -246,11 +250,11 @@ const Auth = () => {
                     </div>
 
                     {/* footer */}
-                    <div className="auth-body text-center mt-8 text-sm text-[#8A8F9C]">
+                    <div className="auth-body text-center mt-8 text-sm text-[#8A8F9C] dark:text-white/40">
                         By signing up, you agree to our{" "}
-                        <Link href="/" className="text-[#3E63DD] hover:underline">Terms of Service</Link>
+                        <Link href="/" className="text-[#3E63DD] dark:text-[#8FA8FF] hover:underline">Terms of Service</Link>
                         {" "}and{" "}
-                        <Link href="/" className="text-[#3E63DD] hover:underline">Privacy Policy</Link>
+                        <Link href="/" className="text-[#3E63DD] dark:text-[#8FA8FF] hover:underline">Privacy Policy</Link>
                     </div>
                 </div>
             </div>

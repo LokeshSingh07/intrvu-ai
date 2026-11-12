@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux';
 import { useSession } from 'next-auth/react';
 import { generateFeedbackForInterview } from '@/actions/interview';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 enum CallStatus {
   INACTIVE = 'INACTIVE',
@@ -284,9 +285,12 @@ export default function LiveInterview() {
       : 'bg-[#8A8F9C]';
 
   return (
-    <div className="li-root h-screen overflow-hidden bg-[#FAF8F4] flex flex-col md:flex-row items-stretch p-6 gap-6 text-[#12151B]">
+    <div className="li-root h-screen overflow-hidden bg-[#FAF8F4] dark:bg-[#12151B] flex flex-col md:flex-row items-stretch p-6 gap-6 text-[#12151B] dark:text-white transition-colors duration-200">
       {/* Left: AI Interview Section */}
-      <div className="relative flex-1 h-full flex flex-col items-center justify-center rounded-xl bg-white border border-[#12151B]/10 p-10 md:p-12 overflow-hidden">
+      <div className="relative flex-1 h-full flex flex-col items-center justify-center rounded-xl bg-white border border-[#12151B]/10 dark:bg-white/[0.04] dark:border-white/10 p-10 md:p-12 overflow-hidden">
+        <div className="absolute top-4 left-4">
+          <ThemeToggle />
+        </div>
         {/* Status badge */}
         <Badge
           variant="outline"
@@ -298,45 +302,45 @@ export default function LiveInterview() {
 
         {/* Agent indicator */}
         <div className="relative z-10 flex flex-col items-center space-y-6">
-          <div className="relative flex items-center justify-center w-32 h-32 rounded-full bg-[#F1EFEA] border border-[#12151B]/10">
+          <div className="relative flex items-center justify-center w-32 h-32 rounded-full bg-[#F1EFEA] border border-[#12151B]/10 dark:bg-white/[0.06] dark:border-white/15">
             {/* Speaking rings — live signal only */}
             {callStatus === CallStatus.ACTIVE && isSpeaking && (
               <>
-                <span className="absolute w-32 h-32 rounded-full border-2 border-[#35D0BA]/40 animate-[ping_1.6s_linear_infinite]" />
-                <span className="absolute w-32 h-32 rounded-full border-2 border-[#35D0BA]/20 animate-[ping_2.2s_linear_infinite]" />
+                <span className="absolute w-32 h-32 rounded-full border-2 border-[#35D0BA]/40 dark:border-[#4ADE80]/40 animate-[ping_1.6s_linear_infinite]" />
+                <span className="absolute w-32 h-32 rounded-full border-2 border-[#35D0BA]/20 dark:border-[#4ADE80]/20 animate-[ping_2.2s_linear_infinite]" />
               </>
             )}
 
             {callStatus === CallStatus.INACTIVE ? (
-              <User className="text-[#12151B]/60" strokeWidth={1.75} size={40} />
+              <User className="text-[#12151B]/60 dark:text-white/60" strokeWidth={1.75} size={40} />
             ) : callStatus === CallStatus.ACTIVE ? (
               isSpeaking ? (
-                <Mic className="text-[#35D0BA]" strokeWidth={1.75} size={40} />
+                <Mic className="text-[#35D0BA] dark:text-[#4ADE80]" strokeWidth={1.75} size={40} />
               ) : (
-                <MicOff className="text-[#8A8F9C]" strokeWidth={1.75} size={40} />
+                <MicOff className="text-[#8A8F9C] dark:text-white/40" strokeWidth={1.75} size={40} />
               )
             ) : callStatus === CallStatus.FINISHED ? (
-              <CheckCircle className="text-[#35D0BA]" strokeWidth={1.75} size={40} />
+              <CheckCircle className="text-[#35D0BA] dark:text-[#4ADE80]" strokeWidth={1.75} size={40} />
             ) : callStatus === CallStatus.CONNECTING ? (
-              <Loader2 className="text-[#3E63DD] animate-spin" strokeWidth={1.75} size={40} />
+              <Loader2 className="text-[#3E63DD] dark:text-[#8FA8FF] animate-spin" strokeWidth={1.75} size={40} />
             ) : null}
           </div>
 
           {/* Status copy */}
           <div className="text-center space-y-1">
             {callStatus === CallStatus.INACTIVE && (
-              <p className="li-body text-[#6B7280] text-lg">Ready to start your mock interview</p>
+              <p className="li-body text-[#6B7280] dark:text-white/60 text-lg">Ready to start your mock interview</p>
             )}
             {callStatus === CallStatus.CONNECTING && (
-              <p className="li-body text-[#6B7280] text-lg">Connecting to your interviewer…</p>
+              <p className="li-body text-[#6B7280] dark:text-white/60 text-lg">Connecting to your interviewer…</p>
             )}
             {callStatus === CallStatus.ACTIVE && (
-              <p className="li-body text-[#374151] text-lg">
+              <p className="li-body text-[#374151] dark:text-white/80 text-lg">
                 {isSpeaking ? 'AI is speaking…' : 'Waiting for your response…'}
               </p>
             )}
             {callStatus === CallStatus.FINISHED && (
-              <p className="li-body text-[#12151B] text-lg font-medium">Interview ended</p>
+              <p className="li-body text-[#12151B] dark:text-white text-lg font-medium">Interview ended</p>
             )}
           </div>
         </div>
@@ -348,7 +352,7 @@ export default function LiveInterview() {
               size="lg"
               onClick={handleCall}
               disabled={callStatus === CallStatus.CONNECTING}
-              className="li-body gap-3 text-base font-semibold px-8 py-5 rounded-lg bg-[#35D0BA] hover:bg-[#2BB8A4] text-[#12151B] disabled:opacity-60 transition-colors duration-200"
+              className="li-body gap-3 text-base font-semibold px-8 py-5 rounded-lg bg-[#35D0BA] hover:bg-[#2BB8A4] dark:bg-[#4ADE80] dark:hover:bg-[#3BC86E] text-[#12151B] disabled:opacity-60 transition-colors duration-200"
             >
               {callStatus === CallStatus.CONNECTING ? (
                 <>
@@ -373,7 +377,7 @@ export default function LiveInterview() {
               <Button
                 size="lg"
                 onClick={() => router.push(`interview-history/${interviewSessionId}`)}
-                className="li-body gap-3 text-base font-semibold px-8 py-5 rounded-lg bg-[#12151B] hover:bg-[#1E222B] text-white transition-colors duration-200"
+                className="li-body gap-3 text-base font-semibold px-8 py-5 rounded-lg bg-[#12151B] hover:bg-[#1E222B] text-white dark:bg-[#8FA8FF] dark:hover:bg-[#7A96FF] dark:text-[#12151B] transition-colors duration-200"
               >
                 View report
               </Button>
@@ -382,7 +386,7 @@ export default function LiveInterview() {
         </div>
 
         {/* Footer text */}
-        <div className="li-body absolute bottom-6 text-[#8A8F9C] text-sm text-center">
+        <div className="li-body absolute bottom-6 text-[#8A8F9C] dark:text-white/40 text-sm text-center">
           {callStatus === CallStatus.INACTIVE
             ? 'Click start to begin your mock interview.'
             : callStatus === CallStatus.FINISHED
@@ -392,14 +396,14 @@ export default function LiveInterview() {
       </div>
 
       {/* Right: Chat Transcript */}
-      <div className="w-full md:w-2/5 h-full flex flex-col bg-white border border-[#12151B]/10 rounded-xl p-6">
+      <div className="w-full md:w-2/5 h-full flex flex-col bg-white border border-[#12151B]/10 dark:bg-white/[0.04] dark:border-white/10 rounded-xl p-6">
         {/* Header */}
-        <div className="flex justify-between items-start mb-6 border-b border-[#12151B]/10 pb-4">
+        <div className="flex justify-between items-start mb-6 border-b border-[#12151B]/10 dark:border-white/10 pb-4">
           <div>
-            <h2 className="li-display text-xl font-bold text-[#12151B]">Conversation flow</h2>
-            <p className="li-body text-sm text-[#6B7280] mt-0.5">Live transcript of your conversation</p>
+            <h2 className="li-display text-xl font-bold text-[#12151B] dark:text-white">Conversation flow</h2>
+            <p className="li-body text-sm text-[#6B7280] dark:text-white/60 mt-0.5">Live transcript of your conversation</p>
           </div>
-          <span className="li-mono text-xs tracking-wide uppercase text-[#8A8F9C]">
+          <span className="li-mono text-xs tracking-wide uppercase text-[#8A8F9C] dark:text-white/40">
             {messages.length ? `${messages.length} messages` : 'No messages yet'}
           </span>
         </div>
@@ -413,7 +417,7 @@ export default function LiveInterview() {
                 className={`flex items-end gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.role !== 'user' && (
-                  <div className="li-mono flex-shrink-0 w-8 h-8 rounded-full bg-[#12151B] text-white flex items-center justify-center text-xs font-medium">
+                  <div className="li-mono flex-shrink-0 w-8 h-8 rounded-full bg-[#12151B] dark:bg-white/15 text-white flex items-center justify-center text-xs font-medium">
                     AI
                   </div>
                 )}
@@ -421,14 +425,14 @@ export default function LiveInterview() {
                 <div
                   className={`li-body max-w-[75%] px-4 py-3 rounded-2xl text-sm leading-relaxed border ${
                     msg.role === 'user'
-                      ? 'bg-[#3E63DD] text-white border-[#3E63DD]'
-                      : 'bg-[#F1EFEA] text-[#12151B] border-[#12151B]/10'
+                      ? 'bg-[#3E63DD] text-white border-[#3E63DD] dark:bg-[#8FA8FF] dark:text-[#12151B] dark:border-[#8FA8FF]'
+                      : 'bg-[#F1EFEA] text-[#12151B] border-[#12151B]/10 dark:bg-white/[0.06] dark:text-white dark:border-white/10'
                   }`}
                 >
                   {msg.content}
                   <div
                     className={`li-mono text-[11px] mt-1 text-right ${
-                      msg.role === 'user' ? 'text-white/70' : 'text-[#8A8F9C]'
+                      msg.role === 'user' ? 'text-white/70 dark:text-[#12151B]/70' : 'text-[#8A8F9C] dark:text-white/40'
                     }`}
                   >
                     {msg.timestamp}
@@ -436,15 +440,15 @@ export default function LiveInterview() {
                 </div>
 
                 {msg.role === 'user' && (
-                  <div className="li-mono flex-shrink-0 w-8 h-8 rounded-full bg-[#3E63DD] text-white flex items-center justify-center text-xs font-medium">
+                  <div className="li-mono flex-shrink-0 w-8 h-8 rounded-full bg-[#3E63DD] dark:bg-[#8FA8FF] text-white dark:text-[#12151B] flex items-center justify-center text-xs font-medium">
                     U
                   </div>
                 )}
               </div>
             ))
           ) : (
-            <div className="li-body text-center text-[#8A8F9C] text-base flex flex-col items-center gap-2 h-full justify-center">
-              <MessageSquare size={26} strokeWidth={1.75} className="text-[#3E63DD]" />
+            <div className="li-body text-center text-[#8A8F9C] dark:text-white/40 text-base flex flex-col items-center gap-2 h-full justify-center">
+              <MessageSquare size={26} strokeWidth={1.75} className="text-[#3E63DD] dark:text-[#8FA8FF]" />
               Waiting for messages…
             </div>
           )}

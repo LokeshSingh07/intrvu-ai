@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import axios from "axios";
 import { formatDate } from '@/lib/formatDate';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 
 
@@ -100,37 +101,37 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center gap-3 h-screen bg-[#FAF8F4]">
+      <div className="flex flex-col items-center justify-center gap-3 h-screen bg-[#FAF8F4] dark:bg-[#12151B]">
         {fontImports}
-        <Loader2 className="w-8 h-8 text-[#12151B] animate-spin" strokeWidth={1.75} />
-        <p className="dash-mono text-xs tracking-wide uppercase text-[#8A8F9C]">Loading your dashboard</p>
+        <Loader2 className="w-8 h-8 text-[#12151B] dark:text-[#8FA8FF] animate-spin" strokeWidth={1.75} />
+        <p className="dash-mono text-xs tracking-wide uppercase text-[#8A8F9C] dark:text-white/40">Loading your dashboard</p>
       </div>
     );
   }
 
 
   return (
-    <div className="min-h-screen bg-[#FAF8F4]">
+    <div className="min-h-screen bg-[#FAF8F4] text-[#12151B] dark:bg-[#12151B] dark:text-white transition-colors duration-200">
       {fontImports}
 
       {/* Header */}
-      <div className="bg-white border-b border-[#12151B]/10">
+      <div className="bg-white border-b border-[#12151B]/10 dark:bg-[#12151B] dark:border-white/10">
         <div className="container mx-auto px-4 sm:px-6 py-5">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             
             {/* Left: Avatar + Welcome */}
             <div className="flex items-center space-x-4">
-              <Avatar className="h-10 w-10 border border-[#12151B]/10">
+              <Avatar className="h-10 w-10 border border-[#12151B]/10 dark:border-white/15">
                 <AvatarImage src="/placeholder.svg" />
-                <AvatarFallback className="dash-display bg-[#12151B] text-white">
+                <AvatarFallback className="dash-display bg-[#12151B] text-white dark:bg-[#8FA8FF] dark:text-[#12151B] font-semibold">
                   {session?.user?.name?.split("")[0] || "L"}
                 </AvatarFallback>
               </Avatar>
               <div>
-                <h1 className="dash-display text-lg sm:text-xl font-semibold text-[#12151B]">
+                <h1 className="dash-display text-lg sm:text-xl font-semibold text-[#12151B] dark:text-white">
                   Welcome back, {session?.user?.name}
                 </h1>
-                <p className="dash-body text-xs sm:text-sm text-[#6B7280]">
+                <p className="dash-body text-xs sm:text-sm text-[#6B7280] dark:text-white/60">
                   Ready to ace your next interview?
                 </p>
               </div>
@@ -138,10 +139,11 @@ const Dashboard = () => {
 
             {/* Right: Buttons */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+              <ThemeToggle className="self-start sm:self-auto" />
               <Button
                 onClick={() => router.push("/dashboard/interview-setup")}
                 disabled={loggingOut}
-                className="dash-body bg-[#12151B] hover:bg-[#1E222B] text-white h-10 sm:h-12 rounded-lg flex items-center justify-center"
+                className="dash-body bg-[#12151B] hover:bg-[#1E222B] text-white dark:bg-[#8FA8FF] dark:hover:bg-[#7A96FF] dark:text-[#12151B] font-semibold h-10 sm:h-12 rounded-lg flex items-center justify-center"
               >
                 <Play className="w-4 h-4 mr-2" />
                 Start interview
@@ -149,7 +151,7 @@ const Dashboard = () => {
 
               <Button
                 variant="outline"
-                className="dash-body border border-[#12151B]/15 h-10 sm:h-12 rounded-lg text-[#12151B] disabled:opacity-60"
+                className="dash-body border border-[#12151B]/15 h-10 sm:h-12 rounded-lg text-[#12151B] dark:border-white/15 dark:bg-white/[0.04] dark:text-white dark:hover:bg-white/[0.08] disabled:opacity-60"
                 disabled={loggingOut}
                 onClick={handleLogout}
               >
@@ -173,70 +175,70 @@ const Dashboard = () => {
           <div className="lg:col-span-2 space-y-8">
             {/* Quick Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card className="border border-[#12151B]/10 rounded-xl shadow-none">
+              <Card className="border border-[#12151B]/10 dark:border-white/10 dark:bg-white/[0.04] rounded-xl shadow-none">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="dash-mono text-[11px] tracking-wide uppercase text-[#6B7280] font-medium">Total interviews</CardTitle>
-                  <Target className="h-4 w-4 text-[#3E63DD]" />
+                  <CardTitle className="dash-mono text-[11px] tracking-wide uppercase text-[#6B7280] dark:text-white/60 font-medium">Total interviews</CardTitle>
+                  <Target className="h-4 w-4 text-[#3E63DD] dark:text-[#8FA8FF]" />
                 </CardHeader>
                 <CardContent>
-                  <div className="dash-display text-2xl font-bold text-[#12151B]">{stats?.totalInterviewCount}</div>
-                  <p className="dash-body text-xs text-[#8A8F9C]">+3 from last week</p>
+                  <div className="dash-display text-2xl font-bold text-[#12151B] dark:text-white">{stats?.totalInterviewCount}</div>
+                  <p className="dash-body text-xs text-[#8A8F9C] dark:text-white/40">+3 from last week</p>
                 </CardContent>
               </Card>
-              <Card className="border border-[#12151B]/10 rounded-xl shadow-none">
+              <Card className="border border-[#12151B]/10 dark:border-white/10 dark:bg-white/[0.04] rounded-xl shadow-none">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="dash-mono text-[11px] tracking-wide uppercase text-[#6B7280] font-medium">Accuracy</CardTitle>
-                  <TrendingUp className="h-4 w-4 text-[#3E63DD]" />
+                  <CardTitle className="dash-mono text-[11px] tracking-wide uppercase text-[#6B7280] dark:text-white/60 font-medium">Accuracy</CardTitle>
+                  <TrendingUp className="h-4 w-4 text-[#3E63DD] dark:text-[#8FA8FF]" />
                 </CardHeader>
                 <CardContent>
-                  <div className="dash-display text-2xl font-bold text-[#12151B]">{stats?.accuracy}%</div>
-                  <p className="dash-body text-xs text-[#8A8F9C]">+5% from last month</p>
+                  <div className="dash-display text-2xl font-bold text-[#12151B] dark:text-white">{stats?.accuracy}%</div>
+                  <p className="dash-body text-xs text-[#8A8F9C] dark:text-white/40">+5% from last month</p>
                 </CardContent>
               </Card>
-              <Card className="border border-[#12151B]/10 rounded-xl shadow-none">
+              <Card className="border border-[#12151B]/10 dark:border-white/10 dark:bg-white/[0.04] rounded-xl shadow-none">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="dash-mono text-[11px] tracking-wide uppercase text-[#6B7280] font-medium">Rating</CardTitle>
-                  <Clock className="h-4 w-4 text-[#3E63DD]" />
+                  <CardTitle className="dash-mono text-[11px] tracking-wide uppercase text-[#6B7280] dark:text-white/60 font-medium">Rating</CardTitle>
+                  <Clock className="h-4 w-4 text-[#3E63DD] dark:text-[#8FA8FF]" />
                 </CardHeader>
                 <CardContent>
-                  <div className="dash-display text-2xl font-bold text-[#12151B]">{stats?.rating}</div>
-                  <p className="dash-body text-xs text-[#8A8F9C]">This week</p>
+                  <div className="dash-display text-2xl font-bold text-[#12151B] dark:text-white">{stats?.rating}</div>
+                  <p className="dash-body text-xs text-[#8A8F9C] dark:text-white/40">This week</p>
                 </CardContent>
               </Card>
             </div>
 
             {/* Recent Activity */}
-            <Card className="border border-[#12151B]/10 rounded-xl shadow-none">
+            <Card className="border border-[#12151B]/10 dark:border-white/10 dark:bg-white/[0.04] rounded-xl shadow-none">
               <CardHeader>
-                <CardTitle className="dash-display text-[#12151B]">Recent interviews</CardTitle>
-                <CardDescription className="dash-body text-[#6B7280]">Your latest practice sessions</CardDescription>
+                <CardTitle className="dash-display text-[#12151B] dark:text-white">Recent interviews</CardTitle>
+                <CardDescription className="dash-body text-[#6B7280] dark:text-white/60">Your latest practice sessions</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   {stats?.recentInterviews?.map((interview) => (
-                    <div key={interview.id} className="p-4 border border-[#12151B]/10 rounded-lg hover:bg-[#FAF8F4] transition-colors">
+                    <div key={interview.id} className="p-4 border border-[#12151B]/10 dark:border-white/10 rounded-lg hover:bg-[#FAF8F4] dark:hover:bg-white/[0.04] transition-colors">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center space-x-3">
-                          <div className="h-10 w-10 bg-[#3E63DD]/10 rounded-full flex items-center justify-center">
-                            <Play className="h-4 w-4 text-[#3E63DD]" />
+                          <div className="h-10 w-10 bg-[#3E63DD]/10 dark:bg-[#8FA8FF]/15 rounded-full flex items-center justify-center">
+                            <Play className="h-4 w-4 text-[#3E63DD] dark:text-[#8FA8FF]" />
                           </div>
                           <div>
-                            <h3 className="dash-display font-medium capitalize text-[#12151B]">{interview?.interviewType} interview</h3>
-                            <p className="dash-mono text-xs text-[#8A8F9C]">{formatDate(interview?.createdAt)} · {interview?.duration.split("_")[1]} min</p>
+                            <h3 className="dash-display font-medium capitalize text-[#12151B] dark:text-white">{interview?.interviewType} interview</h3>
+                            <p className="dash-mono text-xs text-[#8A8F9C] dark:text-white/40">{formatDate(interview?.createdAt)} · {interview?.duration.split("_")[1]} min</p>
                           </div>
                         </div>
                         <Badge
                           className={`dash-mono text-xs ${
                             interview?.rating >= 8
-                              ? "bg-[#35D0BA] text-[#12151B] hover:bg-[#35D0BA]"
-                              : "bg-[#F1EFEA] text-[#6B7280] hover:bg-[#F1EFEA]"
+                              ? "bg-[#35D0BA] text-[#12151B] hover:bg-[#35D0BA] dark:bg-[#4ADE80] dark:hover:bg-[#4ADE80]"
+                              : "bg-[#F1EFEA] text-[#6B7280] hover:bg-[#F1EFEA] dark:bg-white/10 dark:text-white/70 dark:hover:bg-white/10"
                           }`}
                         >
                           {(interview?.rating * 10) || 0}%
                         </Badge>
                       </div>
                       <div className="space-y-2">
-                        <p className="dash-body text-sm text-[#6B7280]">{interview?.summary || "no feedback available"}</p>
+                        <p className="dash-body text-sm text-[#6B7280] dark:text-white/60">{interview?.summary || "no feedback available"}</p>
                         <div className="flex flex-wrap gap-2">
                           {/* {interview?.strengths.length > 0 && interview?.strengths?.map((strength, index) => (
                             <Badge key={index} variant="outline" className="text-green-600 border-green-200">
@@ -250,7 +252,7 @@ const Dashboard = () => {
                 </div>
                 <div className="mt-4">
                   <Link href="/dashboard/interview-history">
-                    <Button variant="outline" className="dash-body w-full border border-[#12151B]/15 text-[#12151B] hover:bg-[#FAF8F4] rounded-lg">View all interviews</Button>
+                    <Button variant="outline" className="dash-body w-full border border-[#12151B]/15 text-[#12151B] hover:bg-[#FAF8F4] dark:border-white/15 dark:bg-white/[0.04] dark:text-white dark:hover:bg-white/[0.08] rounded-lg">View all interviews</Button>
                   </Link>
                 </div>
               </CardContent>

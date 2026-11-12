@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { platformName } from "@/data/constant";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const VerifyClient = () => {
   const searchParams = useSearchParams();
@@ -57,7 +58,7 @@ const VerifyClient = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F4] text-[#12151B] flex flex-col justify-between p-6">
+    <div className="min-h-screen bg-[#FAF8F4] text-[#12151B] dark:bg-[#12151B] dark:text-white flex flex-col justify-between p-6 transition-colors duration-200">
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap');
         .verify-display { font-family: 'Space Grotesk', sans-serif; }
@@ -69,42 +70,45 @@ const VerifyClient = () => {
       <div className="w-full max-w-5xl mx-auto flex items-center justify-between">
         <Link
           href="/"
-          className="verify-display text-lg font-bold tracking-tight text-[#12151B]"
+          className="verify-display text-lg font-bold tracking-tight text-[#12151B] dark:text-white"
         >
           {platformName}
         </Link>
-        <Link
-          href="/auth"
-          className="verify-body inline-flex items-center gap-1.5 text-sm text-[#6B7280] hover:text-[#12151B] transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to sign in
-        </Link>
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <Link
+            href="/auth"
+            className="verify-body inline-flex items-center gap-1.5 text-sm text-[#6B7280] hover:text-[#12151B] dark:text-white/60 dark:hover:text-white transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to sign in
+          </Link>
+        </div>
       </div>
 
       {/* Main Card */}
       <div className="w-full max-w-md mx-auto my-auto py-10">
-        <div className="bg-white border border-[#12151B]/10 rounded-xl p-8">
+        <div className="bg-white border border-[#12151B]/10 dark:bg-white/[0.04] dark:border-white/10 rounded-xl p-8">
           <div className="flex flex-col items-center text-center mb-6">
-            <div className="w-12 h-12 rounded-full bg-[#35D0BA]/15 border border-[#35D0BA]/30 flex items-center justify-center mb-4">
-              <MailCheck className="w-6 h-6 text-[#12151B]" strokeWidth={1.75} />
+            <div className="w-12 h-12 rounded-full bg-[#35D0BA]/15 border border-[#35D0BA]/30 dark:bg-[#4ADE80]/15 dark:border-[#4ADE80]/30 flex items-center justify-center mb-4">
+              <MailCheck className="w-6 h-6 text-[#12151B] dark:text-[#4ADE80]" strokeWidth={1.75} />
             </div>
-            <span className="verify-mono text-[11px] uppercase tracking-wider text-[#3E63DD] font-medium mb-1">
+            <span className="verify-mono text-[11px] uppercase tracking-wider text-[#3E63DD] dark:text-[#8FA8FF] font-medium mb-1">
               Email Verification
             </span>
-            <h1 className="verify-display text-2xl font-bold text-[#12151B]">
+            <h1 className="verify-display text-2xl font-bold text-[#12151B] dark:text-white">
               Verify your account
             </h1>
-            <p className="verify-body text-sm text-[#6B7280] mt-1.5">
+            <p className="verify-body text-sm text-[#6B7280] dark:text-white/60 mt-1.5">
               Enter the 6-digit verification code sent to your inbox.
             </p>
           </div>
 
           {emailParam && (
-            <div className="mb-5 px-3.5 py-2.5 rounded-lg bg-[#FAF8F4] border border-[#12151B]/10 text-center">
-              <p className="verify-body text-xs text-[#6B7280]">
+            <div className="mb-5 px-3.5 py-2.5 rounded-lg bg-[#FAF8F4] border border-[#12151B]/10 dark:bg-white/[0.03] dark:border-white/10 text-center">
+              <p className="verify-body text-xs text-[#6B7280] dark:text-white/60">
                 Code sent to{" "}
-                <span className="verify-mono font-medium text-[#12151B]">
+                <span className="verify-mono font-medium text-[#12151B] dark:text-white">
                   {emailParam}
                 </span>
               </p>
@@ -116,7 +120,7 @@ const VerifyClient = () => {
               <div className="space-y-1.5">
                 <Label
                   htmlFor="verify-email"
-                  className="verify-body text-sm font-medium text-[#12151B]"
+                  className="verify-body text-sm font-medium text-[#12151B] dark:text-white"
                 >
                   Email address
                 </Label>
@@ -126,7 +130,7 @@ const VerifyClient = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
-                  className="verify-body h-11 bg-white border-[#12151B]/15 focus-visible:ring-[#3E63DD]"
+                  className="verify-body h-11 bg-white border-[#12151B]/15 dark:bg-white/[0.04] dark:border-white/15 dark:text-white focus-visible:ring-[#3E63DD] dark:focus-visible:ring-[#8FA8FF]"
                   required
                 />
               </div>
@@ -135,7 +139,7 @@ const VerifyClient = () => {
             <div className="space-y-1.5">
               <Label
                 htmlFor="verify-code"
-                className="verify-body text-sm font-medium text-[#12151B]"
+                className="verify-body text-sm font-medium text-[#12151B] dark:text-white"
               >
                 Verification code
               </Label>
@@ -147,7 +151,7 @@ const VerifyClient = () => {
                 value={code}
                 onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
                 placeholder="000000"
-                className="verify-mono h-12 text-center text-lg tracking-[0.35em] bg-white border-[#12151B]/15 focus-visible:ring-[#3E63DD]"
+                className="verify-mono h-12 text-center text-lg tracking-[0.35em] bg-white border-[#12151B]/15 dark:bg-white/[0.04] dark:border-white/15 dark:text-white focus-visible:ring-[#3E63DD] dark:focus-visible:ring-[#8FA8FF]"
                 required
               />
             </div>
@@ -155,7 +159,7 @@ const VerifyClient = () => {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="verify-body w-full h-11 rounded-lg bg-[#12151B] hover:bg-[#1E222B] text-white font-medium transition-colors"
+              className="verify-body w-full h-11 rounded-lg bg-[#12151B] hover:bg-[#1E222B] text-white dark:bg-[#8FA8FF] dark:hover:bg-[#7A96FF] dark:text-[#12151B] font-medium transition-colors"
             >
               {isSubmitting ? (
                 <>

@@ -37,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className={`${displayFont.variable} ${bodyFont.variable} ${monoFont.variable}`}>
-      <body className="antialiased bg-[#FAF8F4] text-[#12151B] font-body">
+      <body className="antialiased bg-[#FAF8F4] text-[#12151B] dark:bg-[#12151B] dark:text-white font-body transition-colors duration-200">
         <NextAuthProvider>
           <ClientWrapper>
             <main>{children}</main>
