@@ -149,13 +149,17 @@ const InterviewSetup = () => {
 
 
 
+
   const onSubmit = async(data: any)=>{
     // console.log("form Data : ", data);
     try{
       setIsSubmitting(true);
 
       const response = await createInterviewSession(data);
-      console.log("reponse: ", response.data)
+      if (!response?.success || !response?.data?.interview || !response?.data?.questions?.length) {
+        toast.error(response?.error || "❌ Error while creating interview session. Please try again.");
+        return;
+      }
 
       dispatch(setInterviewData(response.data));
 

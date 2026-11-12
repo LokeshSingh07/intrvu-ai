@@ -160,8 +160,26 @@ export async function createInterviewSession({difficultyLevel, duration, experie
         if (questionCount < 4) questionCount = 4;
         if (questionCount > 12) questionCount = 12;
 
-        const sysPrompt = `...`; // unchanged
-        const userPrompt = `...`; // unchanged
+        const sysPrompt = `You are an expert technical interviewer.
+            - Generate exactly ${questionCount} interview questions.
+            - Tailor them to the candidate's job position, tech stack, interview type, experience level, and difficulty level.
+            - Respond in JSON format as an array like:
+            [
+                {"question": "...", "correctAnswer": "..."},
+                {"question": "...", "correctAnswer": "..."}
+            ]
+            - Keep questions concise and relevant.
+            - Avoid any extra text outside the JSON array.`;
+
+        const userPrompt = `Job Position: ${jobPosition}
+            Tech Stack: ${Array.isArray(techStack) ? techStack.join(", ") : techStack}
+            Difficulty Level: ${difficultyLevel}
+            Experience Level: ${experienceLevel}
+            Interview Type: ${interviewType}
+            Mode: ${interviewMode}
+            Job Description: ${jobDescription || "N/A"}
+
+            Generate the ${questionCount} best interview questions.`;
 
         const completion = await groq.chat.completions.create({
             model: "openai/gpt-oss-20b",
@@ -180,15 +198,17 @@ export async function createInterviewSession({difficultyLevel, duration, experie
             .replace(/```\s*$/i, "")
             .trim();
 
-        let generatedQuestions = [];
+        let generatedQuestions: Array<{ question: string; correctAnswer?: string }> = [];
         try {
             const parsed = JSON.parse(cleaned);
-            generatedQuestions = parsed.questions ?? parsed;
+            const rawQuestions = parsed?.questions ?? parsed;
+            generatedQuestions = Array.isArray(rawQuestions) ? rawQuestions : [];
         } catch (err) {
             try {
                 const repaired = jsonrepair(cleaned);
                 const parsed = JSON.parse(repaired);
-                generatedQuestions = parsed.questions ?? parsed;
+                const rawQuestions = parsed?.questions ?? parsed;
+                generatedQuestions = Array.isArray(rawQuestions) ? rawQuestions : [];
                 console.warn("LLM output was malformed but recovered via jsonrepair");
             } catch (repairErr) {
                 console.warn("Failed to parse LLM output even after jsonrepair, fallback to empty list");
@@ -305,7 +325,7 @@ export async function generateFeedbackForInterview(messages: SavedMessage[], ses
         `;
 
         const completion = await groq.chat.completions.create({
-            model: "llama-3.1-8b-instant",
+            model: "openai/gpt-oss-120b",
             messages: [
                 { role: "system", content: sysPrompt },
                 { role: "user", content: userPrompt },
